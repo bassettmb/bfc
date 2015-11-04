@@ -5,4 +5,4 @@ language or an interface quite yet, but it'll be written in C++.
 
 #### User Stories
 
-We don't have users.
+(We did not receive user stories from the group responsible for creating them.)
