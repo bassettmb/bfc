@@ -1,12 +1,12 @@
-#ifndef BF_SOURCE_HPP
-#define BF_SOURCE_HPP
+#ifndef BFC_SOURCE_HPP
+#define BFC_SOURCE_HPP
 
 #include <cstdio>
 #include <istream>
 #include <memory>
 #include <utility>
 
-namespace bf {
+namespace bfc {
 
 template <class T>
 struct source_traits {
@@ -259,4 +259,4 @@ private:
 
 }
 
-#endif /* !BF_SOURCE_HPP */
+#endif /* !BFC_SOURCE_HPP */

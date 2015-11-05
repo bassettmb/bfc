@@ -1,9 +1,9 @@
-#ifndef BF_LEXER_HPP
-#define BF_LEXER_HPP
+#ifndef BFC_LEXER_HPP
+#define BFC_LEXER_HPP
 
 #include "source.hpp"
 
-namespace bf {
+namespace bfc {
 
 struct position {
   unsigned long pos;
@@ -91,4 +91,4 @@ template class lexer<file_source>;
 
 }
 
-#endif /* !BF_LEXER_HPP */
+#endif /* !BFC_LEXER_HPP */
