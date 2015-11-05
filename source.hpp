@@ -8,27 +8,30 @@ namespace bf {
 
 template <class T>
 struct source_traits {
-  static int next(T &source) noexcept
+
+  using source_type = T;
+
+  static int next(source_type &source) noexcept
   {
     return source.next();
   }
 
-  static int peek(T &source) noexcept
+  static int peek(source_type &source) noexcept
   {
     return source.peek();
   }
 
-  static bool eof(const T &source) noexcept
+  static bool eof(const source_type &source) noexcept
   {
     return source.eof();
   }
 
-  static bool error(const T &source) noexcept
+  static bool error(const source_type &source) noexcept
   {
     return source.error();
   }
 
-  static void clear(T &source) noexcept
+  static void clear(source_type &source) noexcept
   {
     source.clear();
   }
