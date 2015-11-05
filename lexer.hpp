@@ -1,5 +1,5 @@
-#ifndef LEXER_HPP
-#define LEXER_HPP
+#ifndef BF_LEXER_HPP
+#define BF_LEXER_HPP
 
 #include "source.hpp"
 
@@ -91,4 +91,4 @@ template class lexer<file_source>;
 
 }
 
-#endif /* !LEXER_HPP */
+#endif /* !BF_LEXER_HPP */

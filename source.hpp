@@ -1,5 +1,5 @@
-#ifndef SOURCE_HPP
-#define SOURCE_HPP
+#ifndef BF_SOURCE_HPP
+#define BF_SOURCE_HPP
 
 #include <cstdio>
 #include <istream>
@@ -259,4 +259,4 @@ private:
 
 }
 
-#endif /* !SOURCE_HPP */
+#endif /* !BF_SOURCE_HPP */
