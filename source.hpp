@@ -1,3 +1,5 @@
+#ifndef SOURCE_HPP
+#define SOURCE_HPP
 
 #include <cstdio>
 #include <istream>
@@ -256,3 +258,5 @@ private:
 };
 
 }
+
+#endif /* !SOURCE_HPP */

@@ -1,3 +1,6 @@
+#ifndef LEXER_HPP
+#define LEXER_HPP
+
 #include "source.hpp"
 
 namespace bf {
@@ -87,3 +90,5 @@ template class lexer<stream_source>;
 template class lexer<file_source>;
 
 }
+
+#endif /* !LEXER_HPP */
