@@ -86,9 +86,6 @@ private:
 
 };
 
-template class lexer<stream_source>;
-template class lexer<file_source>;
-
 }
 
 #endif /* !BFC_LEXER_HPP */
