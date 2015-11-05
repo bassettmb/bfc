@@ -9,6 +9,16 @@ language or an interface quite yet, but it'll be written in C++.
 - Michael Basset
 
 ## Development Guidelines
+- All code in the master branch must functional and fully tested
+- Each feature must be on its own branch
+- All finished features should be pushed into a develop branch
+- The develop branch should be pushed into master for each major version update
+- Master will not be pushed to except for version releases and hotfixes
+- Use good code style
+- All features should have full test coverage
+- Features should be added in the order of user story priority
+- All parts of the code should be documented (defining functionality, inputs, and outputs)
+- Code should be fully commented
 
 ## User Stories
 
