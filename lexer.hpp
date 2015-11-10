@@ -73,6 +73,7 @@ private:
 
   void advance(int ch)
   {
+    pos.pos += 1;
     if (ch == '\n') {
       pos.col = 0;
       pos.row += 1;
