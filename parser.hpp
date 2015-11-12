@@ -43,35 +43,50 @@ class Parser {
         /* vector of instructions to return */
         std::vector<std::unique_ptr<AstNode>> ast;
         
+        /* stack to manage nested instructions in loop nodes */
+        std::stack<std::vector<std::unique_ptr<AstNode>>> stack;
+        
         void updateAst(token &tok) {
             token::type kind = tok.kind;
             position pos = tok.pos;
             std::unique_ptr<AstNode> node;
             
             switch (kind) {
-                case INC:
+                case token::INC:
                     node = std::make_unique<AddNode>(pos, 1);
                     ast.push_back(node);
                     break;
-                case DEC:
+                case token::DEC:
                     node = std::make_unique<AddNode>(pos, -1);
                     ast.push_back(node);
                     break;
-                case MOVE_R:
+                case token::MOVE_R:
                     node = std::make_unique<MoveNode>(pos, 1);
                     ast.push_back(node);
                     break;
-                case MOVE_L:
+                case token::MOVE_L:
                     node = std::make_unique<MoveNode>(pos, -1);
                     ast.push_back(node);
                     break;
-                case LOOP_BEGIN:
-                case LOOP_END:
-                case PUT_CHAR:
+                case token::LOOP_BEGIN:
+                    stack.push(ast);
+                    ast = std::vector<std::unique_ptr<AstNode>>();
+                    break;
+                case token::LOOP_END:
+                    if (!stack.empty()) {
+                        node = std::make_unique<LoopNode>(pos, ast);
+                        ast = stack.top();
+                        stack.pop();
+                        ast.push_back(node);
+                    } else {
+                        // throw exception
+                    }
+                    break;
+                case token::PUT_CHAR:
                     node = std::make_unique<WriteNode>(pos);
                     ast.push_back(node);
                     break;
-                case GET_CHAR:
+                case token::GET_CHAR:
                     node = std::make_unique<ReadNode>(pos);
                     ast.push_back(node);
                     break;
