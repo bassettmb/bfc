@@ -9,7 +9,7 @@ namespace bfc {
 class AstNode : public ast_base {
   private:
     position pos;
-}
+};
 
 class AddNode : public AstNode {
   public:
