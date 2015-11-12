@@ -2,32 +2,9 @@
 #define BFC_LEXER_HPP
 
 #include "source.hpp"
+#include "token.hpp"
 
 namespace bfc {
-
-struct position {
-  unsigned long pos;
-  unsigned long row;
-  unsigned long col;
-};
-
-struct token {
-
-  enum type {
-    INC,
-    DEC,
-    MOVE_L,
-    MOVE_R,
-    LOOP_BEGIN,
-    LOOP_END,
-    PUT_CHAR,
-    GET_CHAR
-  };
-
-  type kind;
-  position pos;
-
-};
 
 template <class Source, class Traits = source_traits<Source>>
 class lexer {
