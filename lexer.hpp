@@ -57,9 +57,11 @@ public:
         case '-': kind = token::DEC; break;
         case '<': kind = token::MOVE_L; break;
         case '>': kind = token::MOVE_R; break;
+        case '[': kind = token::LOOP_BEGIN; break;
+        case ']': kind = token::LOOP_END; break;
         case '.': kind = token::PUT_CHAR; break;
         case ',': kind = token::GET_CHAR; break;
-        /* ignore unrecognized characters */
+        /* unrecognized characters are comments */
         default: continue;
       }
       break;
