@@ -38,8 +38,8 @@ public:
   ast_base *release(void) noexcept;
   void reset(ast_base *ptr = nullptr) noexcept;
 
-  ast_visitor::status accept(ast_visitor &visitor);
-  ast_visitor::status accept(ast_visitor &visitor) const;
+  virtual ast_visitor::status accept(ast_visitor &visitor) = 0;
+  virtual ast_visitor::status accept(ast_visitor &visitor) const = 0;
 
 private:
 
