@@ -1,12 +1,18 @@
-#ifndef BFC_AST_HPP
-#define BFC_AST_HPP
+#ifndef BFC_AST_BASE_HPP
+#define BFC_AST_BASE_HPP
 
+#include "ast_visitor.hpp"
 #include <memory>
 
 namespace bfc {
 
-class ast_base;
-class ast_visitor;
+class ast_base {
+public:
+  virtual ~ast_base(void) = default;
+  virtual ast_base *clone(void) const = 0;
+  virtual ast_visitor::status accept(ast_visitor &visitor) = 0;
+  virtual ast_visitor::status accept(const ast_visitor &visitor) const = 0;
+};
 
 class ast_node {
 
@@ -32,8 +38,8 @@ public:
   ast_base *release(void) noexcept;
   void reset(ast_base *ptr = nullptr) noexcept;
 
-  void accept(ast_visitor &visitor);
-  void accept(const ast_visitor &visitor) const;
+  ast_visitor::status accept(ast_visitor &visitor);
+  ast_visitor::status accept(ast_visitor &visitor) const;
 
 private:
 
@@ -42,36 +48,6 @@ private:
 
 };
 
-class ast_base {
-public:
-  virtual ~ast_base() = default;
-  virtual ast_base *clone(void) const = 0;
-  virtual void accept(ast_visitor &) = 0;
-  virtual void accept(const ast_visitor &) const = 0;
-};
-
-class ast_add;
-class ast_mul;
-class ast_mov;
-class ast_read;
-class ast_write;
-class ast_loop;
-
-class ast_visitor {
-public:
-  virtual ~ast_visitor(void) = default;
-  virtual void visit(ast_add &node) = 0;
-  virtual void visit(const ast_add &node) = 0;
-  virtual void visit(ast_mov &node) = 0;
-  virtual void visit(const ast_mov &node) = 0;
-  virtual void visit(ast_read &node) = 0;
-  virtual void visit(const ast_read &node) = 0;
-  virtual void visit(ast_loop &node) = 0;
-  virtual void visit(const ast_loop &node) = 0;
-  virtual void visit(ast_write &node) = 0;
-  virtual void visit(const ast_write &node) = 0;
-};
-
 }
 
-#endif /* !BFC_AST_HPP */
+#endif /* !BFC_AST_BASE_HPP */
