@@ -8,14 +8,6 @@ namespace bfc {
 class ast_base;
 class ast_visitor;
 
-class ast_base {
-public:
-  virtual ~ast_base() = default;
-  virtual ast_base *clone(void) const = 0;
-  virtual void accept(ast_visitor &) = 0;
-  virtual void accept(const ast_visitor &) const = 0;
-};
-
 class ast_node {
 
 public:
@@ -48,6 +40,36 @@ private:
   ast_base *clone(void) const;
   std::unique_ptr<ast_base> node;
 
+};
+
+class ast_base {
+public:
+  virtual ~ast_base() = default;
+  virtual ast_base *clone(void) const = 0;
+  virtual void accept(ast_visitor &) = 0;
+  virtual void accept(const ast_visitor &) const = 0;
+};
+
+class ast_add;
+class ast_mul;
+class ast_mov;
+class ast_read;
+class ast_write;
+class ast_loop;
+
+class ast_visitor {
+public:
+  virtual ~ast_visitor(void) = default;
+  virtual void visit(ast_add &node) = 0;
+  virtual void visit(const ast_add &node) = 0;
+  virtual void visit(ast_mov &node) = 0;
+  virtual void visit(const ast_mov &node) = 0;
+  virtual void visit(ast_read &node) = 0;
+  virtual void visit(const ast_read &node) = 0;
+  virtual void visit(ast_loop &node) = 0;
+  virtual void visit(const ast_loop &node) = 0;
+  virtual void visit(ast_write &node) = 0;
+  virtual void visit(const ast_write &node) = 0;
 };
 
 }
