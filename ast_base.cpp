@@ -85,14 +85,14 @@ ast_node::reset(ast_base *ptr) noexcept
   node.reset(ptr);
 }
 
-void
+ast_visitor::status
 ast_node::accept(ast_visitor &visitor)
 {
   return node->accept(visitor);
 }
 
-void
-ast_node::accept(const ast_visitor &visitor) const
+ast_visitor::status
+ast_node::accept(ast_visitor &visitor) const
 {
   return node->accept(visitor);
 }
