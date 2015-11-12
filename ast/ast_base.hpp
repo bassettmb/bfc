@@ -1,7 +1,7 @@
 #ifndef BFC_AST_BASE_HPP
 #define BFC_AST_BASE_HPP
 
-#include "ast_visitor.hpp"
+#include "ast/ast_visitor.hpp"
 #include <memory>
 
 namespace bfc {

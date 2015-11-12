@@ -1,8 +1,8 @@
 #ifndef AST_SEQ_HPP
 #define AST_SEQ_HPP
 
-#include "ast_base.hpp"
-#include "ast_visitor.hpp"
+#include "ast/ast_base.hpp"
+#include "ast/ast_visitor.hpp"
 #include <deque>
 
 namespace bfc {
