@@ -11,7 +11,7 @@ public:
   virtual ~ast_base(void) = default;
   virtual ast_base *clone(void) const = 0;
   virtual ast_visitor::status accept(ast_visitor &visitor) = 0;
-  virtual ast_visitor::status accept(const ast_visitor &visitor) const = 0;
+  virtual ast_visitor::status accept(ast_visitor &visitor) const = 0;
 };
 
 class ast_node {
