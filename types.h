@@ -7,6 +7,6 @@
 # include <cstdint>
 #endif
 
-typedef bfc_cell uint8_t;
+typedef bf_value uint8_t;
 
 #endif /* !BFC_TYPES_H */
