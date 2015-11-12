@@ -7,6 +7,6 @@
 # include <cstdint>
 #endif
 
-typedef bf_value uint8_t;
+typedef uint8_t bf_value;
 
 #endif /* !BFC_TYPES_H */
