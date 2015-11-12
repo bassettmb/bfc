@@ -1,26 +1,26 @@
 #ifndef BFC_PARSER_HPP
 #define BFC_PARSER_HPP
 
-#include "lexer.hpp
+#include "lexer.hpp"
 #include "ast.hpp"
 
 namespace bfc {
-    
+
 template <class Lexer>
 class Parser {
-    
+
     using result = typename Lexer::result;
-    
+
     public:
-    
+
         Parser(Lexer lexer) : this.lexer(lexer) {}
-    
+
         std:vector<AstNode> parse() {
             /* create result to hold lexer result */
             result res = OK;
             /* create token to pass into lexer */
             token tok;
-            
+
             for(;;) {
                 res = lexer.next(tok);
                 switch (res) {
@@ -30,27 +30,27 @@ class Parser {
                     case DONE:
                         return ast;
                     case FAIL:
-                        
+
                     default:
                 }
             }
         }
-        
+
     private:
-    
+
         Lexer lexer;
-        
+
         /* vector of instructions to return */
         std::vector<std::unique_ptr<AstNode>> ast;
-        
+
         /* stack to manage nested instructions in loop nodes */
         std::stack<std::vector<std::unique_ptr<AstNode>>> stack;
-        
+
         void updateAst(token &tok) {
             token::type kind = tok.kind;
             position pos = tok.pos;
             std::unique_ptr<AstNode> node;
-            
+
             switch (kind) {
                 case token::INC:
                     node = std::make_unique<AddNode>(pos, 1);
@@ -91,7 +91,7 @@ class Parser {
                     ast.push_back(node);
                     break;
                 default:
-                
+
             }
         }
 
