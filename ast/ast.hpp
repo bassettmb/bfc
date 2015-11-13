@@ -41,15 +41,6 @@ private:
   bf_value node_value;
 };
 
-class has_seq {
-public:
-  has_seq(ast_seq node_seq) noexcept : node_seq(std::move(node_seq)) {}
-  ast_seq &seq(void) noexcept { return node_seq; }
-  const ast_seq &seq(void) const noexcept { return node_seq; }
-private:
-  ast_seq node_seq;
-};
-
 class ast_arith : public ast_base, public has_pos,
                   public has_offset, public has_value {
 public:
@@ -93,6 +84,22 @@ public:
   }
 };
 
+class ast_sub : public ast_arith {
+public:
+  ast_sub(position pos, ptrdiff_t offset, bf_value value) noexcept :
+    ast_arith(pos, offset, value)
+  {}
+  ast_visitor::status accept(ast_visitor &visitor) noexcept override
+  {
+    return visitor.visit(*this);
+  }
+  ast_visitor::status accept(ast_visitor &visitor) const noexcept override
+  {
+    return visitor.visit(*this);
+  }
+};
+
+
 class ast_mul : public ast_arith {
 public:
   ast_mul(position pos, ptrdiff_t offset, bf_value value) noexcept :
@@ -125,7 +132,9 @@ public:
 
 class ast_program : public has_pos, public ast_seq {
 public:
-  ast_program(position pos) noexcept : has_pos(pos) {}
+  ast_program(position pos, ast_seq op_seq) noexcept :
+    has_pos(pos), ast_seq(std::move(op_seq))
+  {}
   ast_visitor::status accept(ast_visitor &visitor) noexcept override
   {
     return visitor.visit(*this);
@@ -139,7 +148,7 @@ public:
 class ast_loop : public has_pos, public ast_seq {
 public:
   ast_loop(position begin_pos, ast_seq ops) noexcept :
-    has_pos(begin_pos)
+    has_pos(begin_pos), ast_seq(std::move(op_seq))
   {}
   ast_visitor::status accept(ast_visitor &visitor) noexcept override
   {
