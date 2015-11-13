@@ -1,5 +1,5 @@
-#ifndef AST_SEQ_HPP
-#define AST_SEQ_HPP
+#ifndef BFC_AST_SEQ_HPP
+#define BFC_AST_SEQ_HPP
 
 #include "ast/ast_base.hpp"
 #include "ast/ast_visitor.hpp"
@@ -103,4 +103,4 @@ ast_seq::emplace_back(Args &&...args)
 
 }
 
-#endif /* !AST_SEQ_HPP */
+#endif /* !BFC_AST_SEQ_HPP */
