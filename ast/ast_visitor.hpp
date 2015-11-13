@@ -24,13 +24,18 @@ public:
 
   virtual ~ast_visitor(void) = default;
 
+  virtual status visit(ast_program &node) { return CONTINUE; }
+  virtual status visit(const ast_program &node) { return CONTINUE; }
+  virtual status visit(ast_add &node) { return CONTINUE; }
   virtual status visit(const ast_add &node) { return CONTINUE; }
   virtual status visit(ast_mov &node) { return CONTINUE; }
   virtual status visit(const ast_mov &node) { return CONTINUE; }
-  virtual status visit(ast_read &node) { return CONTINUE; }
-  virtual status visit(const ast_read &node) { return CONTINUE; }
+  virtual status visit(ast_mul &node) { return CONTINUE; }
+  virtual status visit(const ast_mul &node) { return CONTINUE; }
   virtual status visit(ast_loop &node) { return CONTINUE; }
   virtual status visit(const ast_loop &node) { return CONTINUE; }
+  virtual status visit(ast_read &node) { return CONTINUE; }
+  virtual status visit(const ast_read &node) { return CONTINUE; }
   virtual status visit(ast_write &node) { return CONTINUE; }
   virtual status visit(const ast_write &node) { return CONTINUE; }
 
