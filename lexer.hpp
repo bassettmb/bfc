@@ -1,6 +1,7 @@
 #ifndef BFC_LEXER_HPP
 #define BFC_LEXER_HPP
 
+#include "result.hpp"
 #include "source.hpp"
 #include "token.hpp"
 
@@ -13,44 +14,70 @@ class lexer {
 
 public:
 
-  enum result {
-    FAIL = -1,
-    OK = 0,
-    DONE = 1
-  };
-
   using source_type = typename traits::source_type;
 
   lexer(source_type source) : source(std::move(source)) {}
 
-  result next(token &tok) noexcept {
+  result_type next(token &tok) noexcept {
     token::type kind;
     for (;;) {
       int ch = traits::next(source);
       advance(ch);
+      tok.pos = pos;
       switch (ch) {
-        case EOF: return source.eof() ? DONE : FAIL;
-        case '+': kind = token::INC; break;
-        case '-': kind = token::DEC; break;
-        case '<': kind = token::MOVE_L; break;
-        case '>': kind = token::MOVE_R; break;
-        case '[': kind = token::LOOP_BEGIN; break;
-        case ']': kind = token::LOOP_END; break;
-        case '.': kind = token::PUT_CHAR; break;
-        case ',': kind = token::GET_CHAR; break;
-        /* unrecognized characters are comments */
-        default: continue;
+        case EOF:
+          return traits::eof(source) ?
+            result_type::DONE : result_type::FAIL;
+        case '+':
+          tok.kind = token::INC;
+          return result_type::OK;
+        case '-':
+          tok.kind = token::DEC;
+          return result_type::OK;
+        case '<':
+          tok.kind = token::MOVE_L;
+          return result_type::OK;
+        case '>':
+          tok.kind = token::MOVE_R;
+          return result_type::OK;
+        case '[':
+          tok.kind = token::LOOP_BEGIN;
+          return result_type::OK;
+        case ']':
+          tok.kind = token::LOOP_END;
+          return result_type::OK;
+        case '.':
+          tok.kind = token::PUT_CHAR;
+          return result_type::OK;
+        case ',':
+          tok.kind = token::GET_CHAR;
+          return result_type::OK;
+        
+#if defined(BFC_COMMENT_EXT) && BFC_COMMENT_EXT
+        case '#': /* comment support (syntax extension) */
+          for (;;) {
+            ch = lexer.next();
+            if (ch == EOF)
+              return traits::eof(source) ?
+                result_type::DONE : result_type::FAIL;
+            advance(ch);
+            if (ch == '\n')
+              break;
+          }
+#endif
+
+        default: /* unrecognized characters are ignored */
+          break;
       }
-      break;
     }
     tok.pos = pos;
     tok.kind = kind;
-    return OK;
+    return result_type::OK;
   }
 
 private:
 
-  void advance(int ch)
+  void advance(int ch) noexcept
   {
     pos.pos += 1;
     if (ch == '\n') {
