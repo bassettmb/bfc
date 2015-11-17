@@ -23,13 +23,12 @@ class Parser {
             for(;;) {
                 res = lexer.next(tok);
                 switch (res) {
-                    case OK:
+                    case result_type::OK:
                         updateAst(tok);
                         break;
-                    case DONE:
+                    case result_type::DONE:
                         return ast;
-                    case FAIL:
-
+                    case result_type::FAIL:
                     default:
                 }
             }
