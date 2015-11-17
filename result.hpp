@@ -3,7 +3,7 @@
 
 namespace bfc {
 
-  enum result_type {
+  enum class result_type {
     FAIL = -1,
     OK   =  0,
     DONE =  1
