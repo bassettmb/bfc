@@ -1,0 +1,19 @@
+Pseudo-BNF Brainfuck Grammar
+
+INC : "+"
+DEC : "-"
+MOVE_L : "<"
+MOVE_R : ">"
+PUT_CHAR : "."
+GET_CHAR : ","
+LOOP_BEGIN : "["
+LOOP_END : "]"
+
+arith : INC | DEC | MOVE_L | MOVE_R
+io : PUT_CHAR | GET_CHAR 
+loop : LOOP_BEGIN op_seq LOOP_END
+
+op : arith | io | loop
+op_seq : epsilon | op op_seq
+
+program : op_seq
