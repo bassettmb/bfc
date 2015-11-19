@@ -3,7 +3,7 @@
 
 #include "lexer.hpp"
 #include "result.hpp"
-#include "ast.hpp"
+#include "ast/ast.hpp"
 
 namespace bfc {
 
@@ -18,7 +18,7 @@ class parser {
 
         ast_node parse() {
             /* create result to hold lexer result */
-            result_type res = result_type::OK;
+            result_type res;
             /* create token to pass into lexer */
             token tok{};
 
@@ -126,7 +126,7 @@ class parser {
             token::type kind = tok.kind;
             source_loc loc = tok.loc;
 
-            switch (kind) {
+            switch (tok.kind) {
                 case token::INC:
                   {
                     ast_node add(new ast_add(loc, 0, 1));
