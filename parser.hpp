@@ -2,6 +2,7 @@
 #define BFC_PARSER_HPP
 
 #include "lexer.hpp"
+#include "result.hpp"
 #include "ast.hpp"
 
 namespace bfc {
@@ -9,28 +10,25 @@ namespace bfc {
 template <class Lexer>
 class Parser {
 
-    using result = typename Lexer::result;
-
     public:
 
         Parser(Lexer lexer) : this.lexer(lexer) {}
 
         std:vector<AstNode> parse() {
             /* create result to hold lexer result */
-            result res = OK;
+            result_type res = result_type::OK;
             /* create token to pass into lexer */
             token tok;
 
             for(;;) {
                 res = lexer.next(tok);
                 switch (res) {
-                    case OK:
+                    case result_type::OK:
                         updateAst(tok);
                         break;
-                    case DONE:
+                    case result_type::DONE:
                         return ast;
-                    case FAIL:
-
+                    case result_type::FAIL:
                     default:
                 }
             }
