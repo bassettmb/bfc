@@ -3,20 +3,20 @@
 
 #include "lexer.hpp"
 #include "result.hpp"
-#include "ast.hpp"
+#include "ast/ast.hpp"
 
 namespace bfc {
 
 template <class Lexer>
-class Parser {
+class parser {
 
     public:
 
-        Parser(Lexer lexer) : this.lexer(lexer) {}
+        parser(Lexer lexer) : lexer(lexer) {}
 
-        std:vector<AstNode> parse() {
+        ast_program parse() {
             /* create result to hold lexer result */
-            result_type res = result_type::OK;
+            result_type res;
             /* create token to pass into lexer */
             token tok;
 
@@ -38,8 +38,8 @@ class Parser {
 
         Lexer lexer;
 
-        /* vector of instructions to return */
-        std::vector<std::unique_ptr<AstNode>> ast;
+        /* sequece of instructions to return */
+        ast_seq ast;
 
         /* stack to manage nested instructions in loop nodes */
         std::stack<std::vector<std::unique_ptr<AstNode>>> stack;
@@ -49,7 +49,7 @@ class Parser {
             position pos = tok.pos;
             std::unique_ptr<AstNode> node;
 
-            switch (kind) {
+            switch (tok.kind) {
                 case token::INC:
                     node = std::make_unique<AddNode>(pos, 1);
                     ast.push_back(node);
