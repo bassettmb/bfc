@@ -7,13 +7,7 @@
 namespace bfc {
 namespace ast {
 
-class base {
-public:
-  virtual ~base(void) = default;
-  virtual base *clone(void) const = 0;
-  virtual visitor::status accept(visitor &visitor) = 0;
-  virtual visitor::status accept(visitor &visitor) const = 0;
-};
+class base;
 
 class node {
 
@@ -48,6 +42,21 @@ private:
   std::unique_ptr<base> elem;
 
 };
+
+/* Clone was made private and node a friend of base to prevent misuse of
+ * clone when constructing an AST. 
+ */
+class base {
+  friend node;
+public:
+  virtual ~base(void) = default;
+  virtual visitor::status accept(visitor &visitor) = 0;
+  virtual visitor::status accept(visitor &visitor) const = 0;
+private:
+  virtual base *clone(void) const = 0;
+};
+
+
 
 }
 }

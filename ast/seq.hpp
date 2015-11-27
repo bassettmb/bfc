@@ -60,7 +60,6 @@ public:
   template <class ...Args>
   void emplace_back(Args &&...args);
 
-
   visitor::status accept(visitor &visitor) override;
   visitor::status accept(visitor &visitor) const override;
 

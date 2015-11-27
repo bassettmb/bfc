@@ -111,8 +111,9 @@ seq::cend(void) const noexcept
 visitor::status
 seq::accept(visitor &visitor)
 {
-  visitor::status status = visitor::CONTINUE;
-  for (node &elem : *this) {
+  /* FIXME: iterator invalidation! */
+  auto status = visitor::CONTINUE;
+  for (auto &elem : *this) {
     status = elem.accept(visitor);
     if (status == visitor::BREAK)
       break;
@@ -123,8 +124,9 @@ seq::accept(visitor &visitor)
 visitor::status
 seq::accept(visitor &visitor) const
 {
-  visitor::status status = visitor::CONTINUE;
-  for (const node &elem : *this) {
+  /* FIXME: iterator invalidation! */
+  auto status = visitor::CONTINUE;
+  for (const auto &elem : *this) {
     status = elem.accept(visitor);
     if (status == visitor::BREAK)
       break;
@@ -132,10 +134,10 @@ seq::accept(visitor &visitor) const
   return status;
 }
 
-base *
+node
 seq::clone(void) const
 {
-  return new seq(*this);
+  return node::create<seq>(*this);
 }
 
 }
