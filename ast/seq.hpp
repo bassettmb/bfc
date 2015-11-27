@@ -1,15 +1,16 @@
 #ifndef BFC_AST_SEQ_HPP
 #define BFC_AST_SEQ_HPP
 
-#include "ast/ast_base.hpp"
-#include "ast/ast_visitor.hpp"
+#include "ast/base.hpp"
+#include "ast/visitor.hpp"
 #include <deque>
 
 namespace bfc {
+namespace ast {
 
-class ast_seq : public ast_base {
+class seq : public base {
 
-  using container = std::deque<ast_node>;
+  using container = std::deque<node>;
 
 public:
 
@@ -17,12 +18,12 @@ public:
   using iterator = typename container::iterator;
   using const_iterator = typename container::const_iterator;
 
-  ast_seq(void);
+  seq(void);
 
   template <class InputIt>
-  ast_seq(InputIt begin, InputIt end);
+  seq(InputIt begin, InputIt end);
 
-  void swap(ast_seq &other) noexcept;
+  void swap(seq &other) noexcept;
 
   iterator begin(void) noexcept;
   const_iterator begin(void) const noexcept;
@@ -32,15 +33,15 @@ public:
   const_iterator end(void) const noexcept;
   const_iterator cend(void) const noexcept;
 
-  ast_node &front(void) noexcept;
-  const ast_node &front(void) const noexcept;
-  ast_node &back(void) noexcept;
-  const ast_node &back(void) const noexcept;
+  node &front(void) noexcept;
+  const node &front(void) const noexcept;
+  node &back(void) noexcept;
+  const node &back(void) const noexcept;
   bool empty(void) const noexcept;
   size_type size(void) const noexcept;
 
   void clear(void) noexcept;
-  iterator insert(const_iterator it, ast_node elem);
+  iterator insert(const_iterator it, node elem);
   template <class InputIt>
   iterator insert(const_iterator it, InputIt first, InputIt last);
   template <class ...Args>
@@ -48,8 +49,8 @@ public:
   iterator remove(const_iterator it) noexcept;
   iterator remove(const_iterator first, const_iterator last) noexcept;
 
-  void push_front(ast_node node);
-  void push_back(ast_node node);
+  void push_front(node node);
+  void push_back(node node);
   void pop_front(void) noexcept;
   void pop_back(void) noexcept;
 
@@ -60,47 +61,48 @@ public:
   void emplace_back(Args &&...args);
 
 
-  ast_visitor::status accept(ast_visitor &visitor) override;
-  ast_visitor::status accept(ast_visitor &visitor) const override;
-  ast_base *clone(void) const override;
+  visitor::status accept(visitor &visitor) override;
+  visitor::status accept(visitor &visitor) const override;
+  base *clone(void) const override;
 
 private:
 
-  container seq;
+  container elems;
 
 };
 
 template <class InputIt>
-ast_seq::ast_seq(InputIt first, InputIt last) : seq(first, last) {}
+seq::seq(InputIt first, InputIt last) : elems(first, last) {}
 
 template <class InputIt>
-ast_seq::iterator
-ast_seq::insert(const_iterator it, InputIt first, InputIt last)
+seq::iterator
+seq::insert(const_iterator it, InputIt first, InputIt last)
 {
-  return seq.insert(first, last);
+  return elems.insert(first, last);
 }
 
 template <class ...Args>
-ast_seq::iterator
-ast_seq::emplace(const_iterator it, Args &&...args)
+seq::iterator
+seq::emplace(const_iterator it, Args &&...args)
 {
-  return seq.emplace(it, std::forward<Args>(args)...);
-}
-
-template <class ...Args>
-void
-ast_seq::emplace_front(Args &&...args)
-{
-  seq.emplace_front(std::forward<Args>(args)...);
+  return elems.emplace(it, std::forward<Args>(args)...);
 }
 
 template <class ...Args>
 void
-ast_seq::emplace_back(Args &&...args)
+seq::emplace_front(Args &&...args)
 {
-  seq.emplace_back(std::forward<Args>(args)...);
+  elems.emplace_front(std::forward<Args>(args)...);
 }
 
+template <class ...Args>
+void
+seq::emplace_back(Args &&...args)
+{
+  elems.emplace_back(std::forward<Args>(args)...);
+}
+
+}
 }
 
 #endif /* !BFC_AST_SEQ_HPP */
