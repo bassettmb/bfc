@@ -63,10 +63,10 @@ public:
 
   visitor::status accept(visitor &visitor) override;
   visitor::status accept(visitor &visitor) const override;
-  base *clone(void) const override;
 
 private:
 
+  base *clone(void) const override;
   container elems;
 
 };
@@ -78,7 +78,7 @@ template <class InputIt>
 seq::iterator
 seq::insert(const_iterator it, InputIt first, InputIt last)
 {
-  return elems.insert(first, last);
+  return elems.insert(it, first, last);
 }
 
 template <class ...Args>
