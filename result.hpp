@@ -4,9 +4,9 @@
 namespace bfc {
 
   enum class result_type {
-    FAIL,
-    OK,
-    DONE
+    FAIL = -1,
+    OK   =  0,
+    DONE =  1
   };
 
 }
