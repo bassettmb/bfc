@@ -78,6 +78,16 @@ public:
     pp_ptr_op(node.off());
   }
 
+  void accept(const ast::read &node) override
+  {
+    pp_getc(node.off());
+  }
+
+  void accept(const ast::write &node) override
+  {
+    pp_putc(node.off());
+  }
+
 private:
 
   label_id get_label(void) noexcept
