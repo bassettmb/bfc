@@ -1,13 +1,9 @@
 #ifndef BFC_TOKEN_HPP
 #define BFC_TOKEN_HPP
 
-namespace bfc {
+#include "source_loc.hpp"
 
-struct position {
-  unsigned long pos;
-  unsigned long row;
-  unsigned long col;
-};
+namespace bfc {
 
 struct token {
 
@@ -23,7 +19,7 @@ struct token {
   };
 
   type kind;
-  position pos;
+  source_loc loc;
 
 };
 

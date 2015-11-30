@@ -20,15 +20,15 @@ operator<<(std::ostream &out, source_pos pos)
   return out << pos.row << ',' << pos.col;
 }
 
-class sourceloc {
+class source_loc {
 
 public:
 
-  sourceloc(source_pos begin, source_pos end, std::string name) noexcept :
-    sourceloc{begin, end, std::make_shared<std::string>(std::move(name))}
+  source_loc(source_pos begin, source_pos end, std::string name) noexcept :
+    source_loc{begin, end, std::make_shared<std::string>(std::move(name))}
   {}
 
-  sourceloc(source_pos begin, source_pos end,
+  source_loc(source_pos begin, source_pos end,
              std::shared_ptr<std::string> name) noexcept :
     begin_pos{begin}, end_pos{end}, source_name{name}
   {}
@@ -48,9 +48,9 @@ public:
     return *source_name;
   }
 
-  sourceloc with_pos(source_pos begin, source_pos end) const noexcept
+  source_loc with_pos(source_pos begin, source_pos end) const noexcept
   {
-    return sourceloc{begin, end, source_name};
+    return source_loc{begin, end, source_name};
   }
 
   void print(std::ostream &out) const
@@ -67,7 +67,7 @@ private:
 };
 
 static std::ostream &
-operator<<(std::ostream &out, const sourceloc &loc)
+operator<<(std::ostream &out, const source_loc &loc)
 {
   loc.print(out);
   return out;
