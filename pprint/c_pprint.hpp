@@ -17,7 +17,7 @@ struct c_pprint_opts {
   std::vector<std::string> postlude;
   std::string label_prefix;
   std::string hp_iden;
-  std::string move_fn;
+  std::string mov_fn;
   std::string getc_fn;
   std::string putc_fn;
 };
@@ -49,7 +49,7 @@ public:
   void accept(const ast::loop &loop)
   {
     label_id id = get_label();
-    pp_label()
+    pp_label(id);
   }
 
   void accept(const ast::add &node)
@@ -75,14 +75,14 @@ public:
   void accept(const ast::loop &loop)
   {
     auto begin_id = get_label();
-    auto end_id get_label();
-    /* brain dump: check which arm needs to be inverted */
+    auto end_id = get_label();
     pp_label(begin_id);
-    pp_branch(end_id, true);
+    pp_bez(end_id);
     for (auto &node: loop)
-      node.accept(loop);
-    pp_branch(begin_id, true)
+      node.accept(*this);
+    pp_bnz(begin_id);
     pp_label(end_id);
+  }
 
 private:
 
@@ -96,6 +96,12 @@ private:
   void pp_indent(void)
   {
     sink << ' ' << ' ';
+  }
+
+  void pp_indent(unsigned long nlevels)
+  {
+    while (nlevels--)
+      pp_indent();
   }
 
   void pp_vec(const std::vector<std::string> &vec) const
@@ -123,7 +129,17 @@ private:
     sink << ';' << std::endl;
   }
 
-  void pp_branch(unsigned long id, bool invert = false)
+  void pp_bez(label_id id)
+  {
+    pp_branch(id, true);
+  }
+
+  void pp_bnz(label_id id)
+  {
+    pp_branch(id, false);
+  }
+
+  void pp_branch(label_id id, bool invert)
   {
     pp_indent();
     sink << "if (";
@@ -131,8 +147,7 @@ private:
       sink << '!';
     sink << "*" << opts.hp_iden;
     sink << ')' << std::endl;
-    pp_indent();
-    pp_indent();
+    pp_indent(2);
     pp_jump(id);
   }
 
@@ -157,7 +172,7 @@ private:
   void pp_ptr_op(ptrdiff_t off)
   {
     pp_indent();
-    sink << opts.move_fn << '(' << off << ')';
+    sink << opts.mov_fn << '(' << off << ')';
   }
 
   void pp_getc(ptrdiff_t off)
@@ -176,10 +191,10 @@ private:
          << ')' << ';' << std::endl;
   }
 
-  void pp_move(ptrdiff_t off)
+  void pp_mov(ptrdiff_t off)
   {
     pp_indent();
-    sink << opts.move_fn << '('
+    sink << opts.mov_fn << '('
          << opts.hp_iden << ',' << off
          << ')' << std::endl;
   }
@@ -192,8 +207,8 @@ private:
       opts.postlude = default_opts.postlude;
     if (opts.hp_iden.empty())
       opts.hp_iden = default_opts.hp_iden;
-    if (opts.move_fn.empty())
-      opts.move_fn = default_opts.move_fn;
+    if (opts.mov_fn.empty())
+      opts.mov_fn = default_opts.mov_fn;
     if (opts.getc_fn.empty())
       opts.getc_fn = default_opts.getc_fn;
     if (opts.putc_fn.empty())
