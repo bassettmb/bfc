@@ -14,7 +14,7 @@ struct source_pos {
   unsigned long col;
 };
 
-std::ostream &
+static std::ostream &
 operator<<(std::ostream &out, source_pos pos)
 {
   return out << pos.row << ',' << pos.col;
@@ -66,7 +66,7 @@ private:
 
 };
 
-std::ostream &
+static std::ostream &
 operator<<(std::ostream &out, const sourceloc &loc)
 {
   loc.print(out);
