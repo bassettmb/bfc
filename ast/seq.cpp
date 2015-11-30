@@ -134,10 +134,10 @@ seq::accept(visitor &visitor) const
   return status;
 }
 
-node
+base *
 seq::clone(void) const
 {
-  return node::create<seq>(*this);
+  return new seq{*this};
 }
 
 }
