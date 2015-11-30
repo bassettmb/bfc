@@ -40,39 +40,13 @@ public:
     pp_postlude();
   }
 
-  void accept(const ast::program &prgm)
+  void accept(const ast::program &prgm) override
   {
     for (auto &node: prgm)
       node.accept(*this);
   }
 
-  void accept(const ast::loop &loop)
-  {
-    label_id id = get_label();
-    pp_label(id);
-  }
-
-  void accept(const ast::add &node)
-  {
-    pp_arith_op("+", node.off(), node.value());
-  }
-
-  void accept(const ast::sub &node)
-  {
-    pp_arith_op("-", node.off(), node.value());
-  }
-
-  void accept(const ast::mul &node)
-  {
-    pp_arith_op("*", node.off(), node.value());
-  }
-
-  void accept(const ast::mov &node)
-  {
-    pp_ptr_op(node.off());
-  }
-
-  void accept(const ast::loop &loop)
+  void accept(const ast::loop &loop) override
   {
     auto begin_id = get_label();
     auto end_id = get_label();
@@ -82,6 +56,26 @@ public:
       node.accept(*this);
     pp_bnz(begin_id);
     pp_label(end_id);
+  }
+
+  void accept(const ast::add &node) override
+  {
+    pp_arith_op("+", node.off(), node.value());
+  }
+
+  void accept(const ast::sub &node) override
+  {
+    pp_arith_op("-", node.off(), node.value());
+  }
+
+  void accept(const ast::mul &node) override
+  {
+    pp_arith_op("*", node.off(), node.value());
+  }
+
+  void accept(const ast::mov &node) override
+  {
+    pp_ptr_op(node.off());
   }
 
 private:
