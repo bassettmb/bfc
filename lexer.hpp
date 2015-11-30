@@ -3,6 +3,7 @@
 
 #include "result.hpp"
 #include "source.hpp"
+#include "source_loc.hpp"
 #include "token.hpp"
 
 namespace bfc {
@@ -23,7 +24,7 @@ public:
     for (;;) {
       int ch = traits::next(source);
       advance(ch);
-      tok.pos = pos;
+      tok.loc = loc;
       switch (ch) {
         case EOF:
           return traits::eof(source) ?
@@ -70,25 +71,25 @@ public:
           break;
       }
     }
-    tok.pos = pos;
-    tok.kind = kind;
-    return result_type::OK;
   }
 
 private:
 
   void advance(int ch) noexcept
   {
-    pos.pos += 1;
+    auto begin = loc.end();
+    auto end = begin;
+    end.pos += 1;
     if (ch == '\n') {
-      pos.col = 0;
-      pos.row += 1;
+      end.col = 0;
+      end.row += 1;
     } else {
-      pos.col += 1;
+      end.col += 1;
     }
+    loc = loc.with_pos(begin, end);
   }
 
-  position pos;
+  source_loc loc;
   source_type source;
 
 };
