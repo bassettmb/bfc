@@ -24,6 +24,17 @@ public:
     BREAK = 0,
     CONTINUE
   };
+  
+  enum node_type {
+      PROGRAM = 0,
+      ADD,
+      SUB,
+      MUL,
+      MOV,
+      READ,
+      WRITE,
+      LOOP
+  }
 
   virtual ~visitor(void) = default;
 
