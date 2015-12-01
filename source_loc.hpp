@@ -9,7 +9,7 @@
 namespace bfc {
 
 struct source_pos {
-  off_t off;
+  unsigned long off;
   unsigned long row;
   unsigned long col;
 };
