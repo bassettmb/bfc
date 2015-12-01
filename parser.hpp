@@ -12,13 +12,13 @@ class Parser {
 
     public:
 
-        Parser(Lexer lexer) : this.lexer(lexer) {}
+        Parser(Lexer lexer) : lexer(std::move(lexer)) {}
 
         ast_program parse() {
             /* create result to hold lexer result */
             result_type res = result_type::OK;
             /* create token to pass into lexer */
-            token tok;
+            token tok{};
 
             for(;;) {
                 res = lexer.next(tok);
@@ -27,7 +27,8 @@ class Parser {
                         updateAst(tok);
                         break;
                     case result_type::DONE:
-                        return ast;
+                        ast_program program(tok.loc, astSeq);
+                        return program;
                     case result_type::FAIL:
                     default:
                 }
@@ -39,7 +40,7 @@ class Parser {
         Lexer lexer;
 
         /* vector of instructions to return */
-        std::vector<ast_node> ast;
+        ast_seq astSeq;
 
         ast_loop updateLoop(source_loc loopPos){
             /* create result to hold lexer result */
@@ -47,16 +48,14 @@ class Parser {
             /* create token to pass into lexer */
             token tok;
             /* create vector to use to create ast_loop */
-            std::vector<ast_node> loopAst;
-            token::type kind;
-            source_loc loc;
+            ast_seq loopAst{};
 
             for(;;) {
                 res = lexer.next(tok);
+                token::type kind = tok.kind;
+                source_loc loc = tok.loc;
                 switch (res) {
                     case result_type::OK:
-                        kind = tok.kind;
-                        loc = tok.loc;
                         switch (kind) {
                             case token::INC:
                                 ast_add add(loc, 0, 1);
@@ -79,7 +78,7 @@ class Parser {
                                 loopAst.push_back(innerLoop);
                                 break;
                             case token::LOOP_END:
-                                ast_loop loop(loopPos, loopAst.begin(), loopAst.end());
+                                ast_loop loop(loopPos, loopAst);
                                 return loop;
                             case token::PUT_CHAR:
                                 ast_write write(loc, 0);
@@ -107,33 +106,33 @@ class Parser {
             switch (kind) {
                 case token::INC:
                     ast_add add(loc, 0, 1);
-                    ast.push_back(add);
+                    astSeq.push_back(add);
                     break;
                 case token::DEC:
                     ast_sub sub(loc, 0, 1);
-                    ast.push_back(sub);
+                    astSeq.push_back(sub);
                     break;
                 case token::MOVE_R:
                     ast_mov move_r(loc, 1);
-                    ast.push_back(move_r);
+                    astSeq.push_back(move_r);
                     break;
                 case token::MOVE_L:
                     ast_mov move_l(loc, -1);
-                    ast.push_back(move_l);
+                    astSeq.push_back(move_l);
                     break;
                 case token::LOOP_BEGIN:
                     ast_loop loop = updateLoop(loc);
-                    ast.push_back(loop);
+                    astSeq.push_back(loop);
                     break;
                 case token::LOOP_END:
                     // Throw Exception (No open loop to close)
                 case token::PUT_CHAR:
                     ast_write write(loc, 0);
-                    ast.push_back(write);
+                    astSeq.push_back(write);
                     break;
                 case token::GET_CHAR:
                     ast_read read(loc, 0);
-                    ast.push_back(read);
+                    astSeq.push_back(read);
                     break;
                 default:
 
