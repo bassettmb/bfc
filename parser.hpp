@@ -12,13 +12,13 @@ class parser {
 
     public:
 
-        parser(Lexer lexer) : lexer(lexer) {}
+        Parser(Lexer lexer) : lexer(std::move(lexer)) {}
 
         ast_program parse() {
             /* create result to hold lexer result */
             result_type res;
             /* create token to pass into lexer */
-            token tok;
+            token tok{};
 
             for(;;) {
                 res = lexer.next(tok);
@@ -27,7 +27,8 @@ class parser {
                         updateAst(tok);
                         break;
                     case result_type::DONE:
-                        return ast;
+                        ast_program program(tok.loc, astSeq);
+                        return program;
                     case result_type::FAIL:
                     default:
                 }
@@ -38,55 +39,100 @@ class parser {
 
         Lexer lexer;
 
-        /* sequece of instructions to return */
-        ast_seq ast;
+        /* vector of instructions to return */
+        ast_seq astSeq;
 
-        /* stack to manage nested instructions in loop nodes */
-        std::stack<std::vector<std::unique_ptr<AstNode>>> stack;
+        ast_loop updateLoop(source_loc loopPos){
+            /* create result to hold lexer result */
+            result_type res = result_type::OK;
+            /* create token to pass into lexer */
+            token tok;
+            /* create vector to use to create ast_loop */
+            ast_seq loopAst{};
+
+            for(;;) {
+                res = lexer.next(tok);
+                token::type kind = tok.kind;
+                source_loc loc = tok.loc;
+                switch (res) {
+                    case result_type::OK:
+                        switch (kind) {
+                            case token::INC:
+                                ast_add add(loc, 0, 1);
+                                loopAst.push_back(add);
+                                break;
+                            case token::DEC:
+                                ast_sub sub(loc, 0, 1);
+                                loopAst.push_back(sub);
+                                break;
+                            case token::MOVE_R:
+                                ast_mov move_r(loc, 1);
+                                loopAst.push_back(move_r);
+                                break;
+                            case token::MOVE_L:
+                                ast_mov move_l(loc, -1);
+                                loopAst.push_back(move_l);
+                                break;
+                            case token::LOOP_BEGIN:
+                                ast_loop innerLoop = updateLoop(loc);
+                                loopAst.push_back(innerLoop);
+                                break;
+                            case token::LOOP_END:
+                                ast_loop loop(loopPos, loopAst);
+                                return loop;
+                            case token::PUT_CHAR:
+                                ast_write write(loc, 0);
+                                loopAst.push_back(write);
+                                break;
+                            case token::GET_CHAR:
+                                ast_read read(loc, 0);
+                                loopAst.push_back(read);
+                                break;
+                            default:
+                        }
+                        break; /* result_type::OK */
+                    case result_type::DONE:
+                    case result_type::FAIL:
+                    default:
+                        // Throw Exception (ends without closing loop)
+                }
+            }
+        }
 
         void updateAst(token &tok) {
             token::type kind = tok.kind;
-            position pos = tok.pos;
-            std::unique_ptr<AstNode> node;
+            source_loc loc = tok.loc;
 
             switch (tok.kind) {
                 case token::INC:
-                    node = std::make_unique<AddNode>(pos, 1);
-                    ast.push_back(node);
+                    ast_add add(loc, 0, 1);
+                    astSeq.push_back(add);
                     break;
                 case token::DEC:
-                    node = std::make_unique<AddNode>(pos, -1);
-                    ast.push_back(node);
+                    ast_sub sub(loc, 0, 1);
+                    astSeq.push_back(sub);
                     break;
                 case token::MOVE_R:
-                    node = std::make_unique<MoveNode>(pos, 1);
-                    ast.push_back(node);
+                    ast_mov move_r(loc, 1);
+                    astSeq.push_back(move_r);
                     break;
                 case token::MOVE_L:
-                    node = std::make_unique<MoveNode>(pos, -1);
-                    ast.push_back(node);
+                    ast_mov move_l(loc, -1);
+                    astSeq.push_back(move_l);
                     break;
                 case token::LOOP_BEGIN:
-                    stack.push(ast);
-                    ast = std::vector<std::unique_ptr<AstNode>>();
+                    ast_loop loop = updateLoop(loc);
+                    astSeq.push_back(loop);
                     break;
                 case token::LOOP_END:
-                    if (!stack.empty()) {
-                        node = std::make_unique<LoopNode>(pos, ast);
-                        ast = stack.top();
-                        stack.pop();
-                        ast.push_back(node);
-                    } else {
-                        // throw exception
-                    }
-                    break;
+                    // Throw Exception (No open loop to close)
                 case token::PUT_CHAR:
-                    node = std::make_unique<WriteNode>(pos);
-                    ast.push_back(node);
+                    ast_write write(loc, 0);
+                    astSeq.push_back(write);
                     break;
                 case token::GET_CHAR:
-                    node = std::make_unique<ReadNode>(pos);
-                    ast.push_back(node);
+                    ast_read read(loc, 0);
+                    astSeq.push_back(read);
                     break;
                 default:
 
