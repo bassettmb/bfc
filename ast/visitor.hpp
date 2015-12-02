@@ -7,6 +7,7 @@ namespace bfc {
 namespace ast {
 
 class program;
+class set;
 class add;
 class sub;
 class mul;
@@ -39,6 +40,8 @@ public:
 
   virtual status visit(program &node) { return CONTINUE; }
   virtual status visit(const program &node) { return CONTINUE; }
+  virtual status visit(set &node) { return CONTINUE; }
+  virtual status visit(const set &node) { return CONTINUE; }
   virtual status visit(add &node) { return CONTINUE; }
   virtual status visit(const add &node) { return CONTINUE; }
   virtual status visit(sub &node) { return CONTINUE; }
