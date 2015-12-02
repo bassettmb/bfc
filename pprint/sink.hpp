@@ -13,21 +13,21 @@ public:
 
   explicit sink_wrapper(std::ostream &sink) noexcept : sink{&sink}
   {
-    auto state = sink.rdstate();
-    exn_mask = sink.exceptions();
+    auto state = this->sink->rdstate();
+    exn_mask = this->sink->exceptions();
     auto new_mask = exn_mask | std::ios::badbit | std::ios::failbit;
-    sink.exceptions(new_mask);
-    sink.setstate(state);
+    this->sink->exceptions(new_mask);
+    this->sink->setstate(state);
   }
 
   sink_wrapper(const sink_wrapper &other) = delete;
 
   ~sink_wrapper(void)
   {
-    auto state = sink.rdstate();
-    sink.exceptions(exn_mask);
+    auto state = sink->rdstate();
+    sink->exceptions(exn_mask);
     try {
-      sink.setstate(state);
+      sink->setstate(state);
     } catch (...) {
       /* swallow any stream failures since we're likely unwinding as a
        * consequence of them (or something worse) anyway
@@ -37,12 +37,12 @@ public:
 
   operator std::ostream &(void) noexcept
   {
-    return sink;
+    return *sink;
   }
 
   operator const std::ostream &(void) const noexcept
   {
-    return sink;
+    return *sink;
   }
 
   template <class T>
