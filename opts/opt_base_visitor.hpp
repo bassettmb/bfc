@@ -20,6 +20,14 @@ public:
         return handle_program(node);
     }
     
+    virtual status visit(set &node) {
+        return handle_set(node);
+    }
+    
+    virtual status visit(const set &node) {
+        return handle_set(node);
+    }
+    
     virtual status visit(add &node) {
         return handle_add(node);
     }
@@ -107,6 +115,18 @@ protected:
         // swap back the old optimized sequence
         opt_seq.swap(temp_seq);
         // add the new node to the sequence
+        opt_seq.push_back(node);
+        return CONTINUE;
+    }
+    status handle_set(set &node) {
+        set base(node.loc(), node.offset(), node.value());
+        node cur_node(base);
+        opt_seq.push_back(node);
+        return CONTINUE;
+    }
+    status handle_set(const set &node) {
+        set base(node.loc(), node.offset(), node.value());
+        node cur_node(base);
         opt_seq.push_back(node);
         return CONTINUE;
     }

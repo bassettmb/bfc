@@ -47,6 +47,8 @@ private:
         public: 
             status visit(program &node) { return BREAK; }
             status visit(const program &node) { return BREAK; }
+            status visit(set &node) { return BREAK; }
+            status visit(const set &node) { return BREAK; }
             status visit(add &node) {
                 return (node.value() == 1 && node.offset() == 0) ? CONTINUE : BREAK;
             }
@@ -70,7 +72,7 @@ private:
             status visit(write &node) { return BREAK; }
             status visit(const write &node) { return BREAK; }
             
-    }
+    };
 
 };
 
