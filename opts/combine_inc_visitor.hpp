@@ -4,7 +4,7 @@
 namespace bfc {
 namespace ast {
 
-class clear_loops_visitor : public opt_base_visitor {
+class combine_inc_visitor : public opt_base_visitor {
 
 public:
 
@@ -17,7 +17,10 @@ public:
         test_combine_inc_visitor v(node.offset(), node.value(), true);
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
-            // combining worked, seq updated, go to next node
+            // discard the combined node if it is 0
+            if (v.new_value() == 0) {
+                opt_seq.pop_back();
+            }
             return CONTINUE;
         }
         // else make node copy
@@ -33,7 +36,10 @@ public:
         test_combine_inc_visitor v(node.offset(), node.value(), true);
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
-            // combining worked, seq updated, go to next node
+            // discard the combined node if it is 0
+            if (v.new_value() == 0) {
+                opt_seq.pop_back();
+            }
             return CONTINUE;
         }
         // else make node copy
@@ -49,7 +55,10 @@ public:
         test_combine_inc_visitor v(node.offset(), node.value(), true);
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
-            // combining worked, seq updated, go to next node
+            // discard the combined node if it is 0
+            if (v.new_value() == 0) {
+                opt_seq.pop_back();
+            }
             return CONTINUE;
         }
         // else make node copy
@@ -65,7 +74,10 @@ public:
         test_combine_inc_visitor v(node.offset(), node.value(), true);
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
-            // combining worked, seq updated, go to next node
+            // discard the combined node if it is 0
+            if (v.new_value() == 0) {
+                opt_seq.pop_back();
+            }
             return CONTINUE;
         }
         // else make node copy
@@ -80,27 +92,15 @@ private:
             test_combine_inc_visitor(ptrdiff_t offset, bf_value value, bool isAdd) :
                 next_off(offset), next_val(value), isAdd(isAdd) {}
                 
-            status visit(set &node) {
-                if (node.offset() != next_off) {
-                    return BREAK;
-                }
-                bf_value new_val = node.value()
-                isAdd ? new_val += next_val : new_val -= next_val;
-                node.value(new_val);
+            bf_value new_value() {
+                return new_val;
             }
-            status visit(const set &node) {
-                if (node.offset() != next_off) {
-                    return BREAK;
-                }
-                bf_value new_val = node.value()
-                isAdd ? new_val += next_val : new_val -= next_val;
-                node.value(new_val);
-            }
+                
             status visit(add &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                bf_value new_val = node.value()
+                new_val = node.value()
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
@@ -108,7 +108,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                bf_value new_val = node.value()
+                new_val = node.value()
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
@@ -116,7 +116,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                bf_value new_val = node.value()
+                new_val = node.value()
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
             }
@@ -124,10 +124,16 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                bf_value new_val = node.value()
+                new_val = node.value()
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
             }
+            
+        private:
+            bool isAdd;
+            ptrdiff_t next_off;
+            bf_value next_val;
+            bf_value new_val;
             
     };
 
