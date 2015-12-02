@@ -21,7 +21,7 @@ public:
             }
         }
         // else optimize inner sequence
-        opt_base_visitor:: // FIXME with protected method in base
+        opt_base_visitor::handle_loop(node);
     }
     
     status visit(const loop &node) {
@@ -37,7 +37,7 @@ public:
             }
         }
         // else optimize inner sequence
-        opt_base_visitor:: // FIXME with protected method in base
+        opt_base_visitor::handle_loop(node);
     }
     
 private:
