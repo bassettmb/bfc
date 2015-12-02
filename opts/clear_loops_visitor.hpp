@@ -42,13 +42,9 @@ public:
     
 private:
 
-    class test_inner_sequence_visitor : public visitor {
+    class test_inner_sequence_visitor : public test_visitor {
         
         public: 
-            status visit(program &node) { return BREAK; }
-            status visit(const program &node) { return BREAK; }
-            status visit(set &node) { return BREAK; }
-            status visit(const set &node) { return BREAK; }
             status visit(add &node) {
                 return (node.value() == 1 && node.offset() == 0) ? CONTINUE : BREAK;
             }
@@ -61,16 +57,6 @@ private:
             status visit(const sub &node) {
                 return (node.value() == 1 && node.offset() == 0) ? CONTINUE : BREAK;
             }
-            status visit(mov &node) { return BREAK; }
-            status visit(const mov &node) { return BREAK; }
-            status visit(mul &node) { return BREAK; }
-            status visit(const mul &node) { return BREAK; }
-            status visit(loop &node) { return BREAK; }
-            status visit(const loop &node) { return BREAK; }
-            status visit(read &node) { return BREAK; }
-            status visit(const read &node) { return BREAK; }
-            status visit(write &node) { return BREAK; }
-            status visit(const write &node) { return BREAK; }
             
     };
 
