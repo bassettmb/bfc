@@ -19,6 +19,13 @@ namespace ast {
  * abstract class.
  */
 
+class set :public base_crtp<set>, public arith {
+public:
+  set(source_loc loc, ptrdiff_t offset, bf_value value) noexcept :
+    arith{std::move(loc), offset, value}
+  {}
+};
+
 class add : public base_crtp<add>, public arith {
 public:
   add(source_loc loc, ptrdiff_t offset, bf_value value) noexcept :
