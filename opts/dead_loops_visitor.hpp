@@ -65,7 +65,7 @@ public:
         test_dead_loop_visitor v;
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
-            // remove this loop from the sequence
+            // no-op to remove this loop from the sequence
             return CONTINUE;
         }
         // else optimize inner sequence
@@ -77,7 +77,7 @@ public:
         test_dead_loop_visitor v;
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
-            // remove this loop from the sequence
+            // no-op to remove this loop from the sequence
             return CONTINUE;
         }
         // else optimize inner sequence
@@ -89,31 +89,16 @@ private:
     class test_dead_loop_visitor : public visitor {
         
         public: 
-            status visit(program &node) { return BREAK; }
-            status visit(const program &node) { return BREAK; }
             status visit(set &node) {
                 return (node.value() == 0 && node.offset() == 0) ? CONTINUE : BREAK;
             }
             status visit(const set &node) {
                 return (node.value() == 0 && node.offset() == 0) ? CONTINUE : BREAK;
             }
-            status visit(add &node) { return BREAK; }
-            status visit(const add &node) { return BREAK; }
-            status visit(sub &node) { return BREAK; }
-            status visit(const sub &node) { return BREAK; }
-            status visit(mov &node) { return BREAK; }
-            status visit(const mov &node) { return BREAK; }
-            status visit(mul &node) { return BREAK; }
-            status visit(const mul &node) { return BREAK; }
             
             // Loops only terminate when the current cell reaches 0
             status visit(loop &node) { return CONTINUE; }
             status visit(const loop &node) { return CONTINUE; }
-            
-            status visit(read &node) { return BREAK; }
-            status visit(const read &node) { return BREAK; }
-            status visit(write &node) { return BREAK; }
-            status visit(const write &node) { return BREAK; }
             
     };
 
