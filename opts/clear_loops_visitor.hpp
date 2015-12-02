@@ -42,7 +42,7 @@ public:
     
 private:
 
-    class test_inner_sequence_visitor : visitor {
+    class test_inner_sequence_visitor : public visitor {
         
         public: 
             status visit(program &node) { return BREAK; }
