@@ -57,7 +57,7 @@ private:
     class try_combine_ptr_visitor : public test_visitor {
         
         public:
-            try_combine_inc_visitor(ptrdiff_t offset) : next_off(offset) {}
+            try_combine_ptr_visitor(ptrdiff_t offset) : next_off(offset) {}
                 
             ptrdiff_t new_offset() {
                 return new_off;
