@@ -4,7 +4,7 @@
 namespace bfc {
 namespace ast {
 
-class combine_ptr_visitor : public opt_base_visitor {
+class combine_ptr_visitor : public opt_seq_base_visitor {
 
 public:
 

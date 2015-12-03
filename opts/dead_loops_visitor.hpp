@@ -4,7 +4,7 @@
 namespace bfc {
 namespace ast {
 
-class dead_loops_visitor : public opt_base_visitor {
+class dead_loops_visitor : public opt_seq_base_visitor {
 
 public:
 
