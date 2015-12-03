@@ -43,7 +43,7 @@ handle_filepath(const char *filepath)
   stream_source streamSource(stream);
   lexer<stream_source> lexer(streamSource);
   parser<stream_source> parser(lexer);
-  ast_program ast = parser.parse();
+  ast_node ast = parser.parse();
 
   return 0;
 }
