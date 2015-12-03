@@ -39,9 +39,7 @@ handle_filepath(const char *filepath)
     }
   }
 
-  std::fstream * stream = new std::fstream(filepath);
-  stream_source streamSource(stream);
-  lexer<stream_source> lexer(streamSource);
+  lexer<stream_source> lexer(stream_source(new std::fstream(filepath)));
   parser<stream_source> parser(lexer);
   ast_node ast = parser.parse();
 
