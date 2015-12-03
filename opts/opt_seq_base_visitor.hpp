@@ -5,6 +5,8 @@ namespace bfc {
 namespace ast {
 
 class opt_seq_base_visitor : public visitor {
+    
+    using error = std::runtime_error;
 
 public:
 
@@ -13,11 +15,11 @@ public:
     }
 
     status visit(program &node) {
-        // TODO throw error
+        throw error("Malformed syntax tree: optimizer encountered nested program node"); 
     }
     
     status visit(const program &node) {
-        // TODO throw error
+        throw error("Malformed syntax tree: optimizer encountered nested program node"); 
     }
     
     virtual status visit(set &node) {

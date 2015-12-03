@@ -5,6 +5,9 @@ namespace bfc {
 namespace ast {
 
 class opt_program_visitor : public visitor {
+    
+    using error = std::runtime_error;
+    using string = std::string;
 
 public:
 
@@ -21,73 +24,78 @@ public:
     }
     
     status visit(set &node) {
-        // TODO throw error here
+       throw create_type_err("SET");
     }
     
     status visit(const set &node) {
-        // TODO throw error here
+        throw create_type_err("SET);
     }
     
     status visit(add &node) {
-        // TODO throw error here
+        throw create_type_err("ADD");
     }
     
     status visit(const add &node) {
-        // TODO throw error here
+        throw create_type_err("ADD");
     }
     
     status visit(sub &node) {
-        // TODO throw error here
+        throw create_type_err("SUB");
     }
     
     status visit(const sub &node) {
-        // TODO throw error here
+        throw create_type_err("SUB");
     }
     
     status visit(mov &node) {
-        // TODO throw error here
+        throw create_type_err("MOV");
     }
     
     status visit(const mov &node) {
-        // TODO throw error here
+        throw create_type_err("MOV");
     }
     
     status visit(mul &node) {
-        // TODO throw error here       
+        throw create_type_err("MUL");      
     }
     
     status visit(const mul &node) {
-        // TODO throw error here
+        throw create_type_err("MUL");
     }
     
     status visit(loop &node) {
-        // TODO throw error here
+        throw create_type_err("LOOP");
     }
     
     status visit(const loop &node) {
-        // TODO throw error here
+        throw create_type_err("LOOP");
     }
     
     status visit(read &node) {
-        // TODO throw error here
+        throw create_type_err("READ");
     }
     
     status visit(const read &node) {
-        // TODO throw error here
+        throw create_type_err("READ");
     }
     
     status visit(write &node) {
-        // TODO throw error here
+        throw create_type_err("WRITE");
     }
     
     status visit(const write &node) {
-        // TODO throw error here
+        throw create_type_err("WRITE");
     }
     
 private:
 
     // node containing optimized program
     node opt_program;
+    
+    // function to create an error message
+    error create_type_err(const string &info) {
+        return error("Program optimizer used on improper node type: " + info);
+    }
 
 };
 
