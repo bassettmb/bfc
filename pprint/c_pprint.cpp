@@ -3,15 +3,35 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 namespace bfc {
 namespace pprint {
 
+c_pprint::c_pprint(void) = default;
+
+/* Halp I feel so dirty halp. */
 c_pprint::config::config(void) :
   prelude{
-    "#include \"bfc_rts.h\"",
-    "#include \"bfc_rts.def\"",
-    "void bfc_main(void) {"
+    "#include <stdio.h>",
+    "static unsigned char mem[30000];",
+    "static unsigned char *bfc_hp = mem + 10000;",
+    "#define bfc_add(off, val) (bfc_hp[(off)] += (val))",
+    "#define bfc_sub(off, val) (bfc_hp[(off)] -= (val))",
+    "#define bfc_mov(off) (bfc_hp += (off))",
+    "#define bfc_mul(off, val) \
+      do { \
+        bfc_hp[(off)] += *bfc_hp * (val); \
+        *bfc_hp = 0; \
+      } while(0)",
+    "#define bfc_getc(off) \
+      do { \
+        int _bfc_ch = getchar(); \
+        if (_bfc_ch != EOF) \
+          bfc_hp[(off)] = _bfc_ch; \
+      } while (0)",
+    "#define bfc_putc(off) putchar(bfc_hp[(off)])",
+    "int main(void) {"
   },
   postlude {"}"},
   label_prefix{"bfc_l"},
@@ -20,7 +40,8 @@ c_pprint::config::config(void) :
   putc_iden{"bfc_putc"},
   add_iden{"bfc_add"},
   sub_iden{"bfc_sub"},
-  mul_iden{"bfc_mul"}
+  mul_iden{"bfc_mul"},
+  mov_iden{"bfc_mov"}
   /*set_iden{"bfc_set"}*/
 {}
 
@@ -83,7 +104,7 @@ public:
 
   ast::visitor::status visit(const ast::mov &node) override
   {
-    pp_ptr_op(node.offset());
+    pp_mov(node.offset());
     return ast::visitor::CONTINUE;
   }
 
@@ -204,58 +225,50 @@ private:
 
   void pp_prelude(void) const
   {
-    pp_indent();
     auto &vec = opts.prelude;
     pp_iter(vec.begin(), vec.end());
   }
 
   void pp_postlude(void) const
   {
-    pp_indent();
     auto &vec = opts.postlude;
     pp_iter(vec.begin(), vec.end());
   }
 
-  void pp_add(ptrdiff_t offset, bf_value value)
+  void pp_add(ptrdiff_t offset, int value)
   {
     pp_indent();
-    pp_fn(opts.add_iden.data(), opts.hp_iden, offset, value);
+    pp_fn(opts.add_iden.data(), offset, value);
   }
 
-  void pp_sub(ptrdiff_t offset, bf_value value)
+  void pp_sub(ptrdiff_t offset, int value)
   {
     pp_indent();
-    pp_fn(opts.sub_iden.data(), opts.hp_iden, offset, value);
+    pp_fn(opts.sub_iden.data(), offset, value);
   }
 
-  void pp_mul(ptrdiff_t offset, bf_value value)
+  void pp_mul(ptrdiff_t offset, int value)
   {
     pp_indent();
-    pp_fn(opts.mul_iden.data(), opts.hp_iden.data(), offset, value);
-  }
-
-  void pp_ptr_op(ptrdiff_t offset)
-  {
-    pp_indent();
-    pp_fn(opts.mov_iden.data(), opts.hp_iden, offset);
+    pp_fn(opts.mul_iden.data(), offset, value);
   }
 
   void pp_getc(ptrdiff_t offset)
   {
     pp_indent();
-    pp_fn(opts.getc_iden.data(), opts.hp_iden, offset);
+    pp_fn(opts.getc_iden.data(), offset);
   }
 
   void pp_putc(ptrdiff_t offset)
   {
     pp_indent();
-    pp_fn(opts.putc_iden.data(), opts.hp_iden, offset);
+    pp_fn(opts.putc_iden.data(), offset);
   }
 
   void pp_mov(ptrdiff_t offset)
   {
     pp_indent();
-    pp_fn(opts.mov_iden.data(), opts.hp_iden, offset);
+    pp_fn(opts.mov_iden.data(), offset);
   }
 
   label_id next_label_id;

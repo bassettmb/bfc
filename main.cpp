@@ -33,6 +33,7 @@ handle_filepath(const char *filepath)
     print_filename_error(stderr);
     return -1;
   }
+
   for (size_t i = FILETYPE_LEN ; i > 0; --i){
     if (filepath[len - i] != FILETYPE[FILETYPE_LEN - i]){
       print_filename_error(stderr);
@@ -40,10 +41,12 @@ handle_filepath(const char *filepath)
     }
   }
 
-  parser<stream_source> parser{lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
+  parser<stream_source> parser{
+    lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
   ast_node ast = parser.parse();
-  pprint::c_pprint printer();
-  printer.emit(std::ofstream(strcat(filepath, ".c")), ast);
+  pprint::c_pprint printer{};
+  std::ofstream output{std::string{filepath} + ".c"};
+  printer.emit(output, ast);
 
 
   return 0;

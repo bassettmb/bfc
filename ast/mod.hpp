@@ -8,7 +8,6 @@
 #include "ast/traits.hpp"
 #include "ast/visitor.hpp"
 #include "token.hpp"
-
 #include <cstddef>
 
 namespace bfc {

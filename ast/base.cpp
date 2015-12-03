@@ -1,5 +1,6 @@
 #include "ast/base.hpp"
 #include <utility>
+#include <iostream>
 
 namespace bfc {
 namespace ast {
@@ -92,10 +93,14 @@ node::accept(visitor &visitor)
   return elem->accept(visitor);
 }
 
+
 visitor::status
 node::accept(visitor &visitor) const
 {
-  return elem->accept(visitor);
+  /* This cast is necessary because otherwise we manage a turn const pointer
+   * non-const and why the hell fuck.
+   */
+  return static_cast<const base *>(elem.get())->accept(visitor);
 }
 
 base *
