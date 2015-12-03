@@ -19,7 +19,7 @@ namespace ast {
  * abstract class.
  */
 
-class set :public base_crtp<set>, public arith {
+class set : public base_crtp<set>, public arith {
 public:
   set(source_loc loc, ptrdiff_t offset, bf_value value) noexcept :
     arith{std::move(loc), offset, value}
@@ -55,28 +55,56 @@ public:
   {}
 };
 
+/* Cannot inherit from base_crtp because of the diamond problem. */
 class program : public has_loc, public seq {
 public:
   program(source_loc loc, seq op_seq) noexcept :
     has_loc{std::move(loc)}, seq{std::move(op_seq)}
   {}
+  visitor::status accept(visitor &obj) override
+  {
+    return obj.visit(*this);
+  }
+  visitor::status accept(visitor &obj) const override
+  {
+    return obj.visit(*this);
+  }
+private:
+  base *clone(void) const override
+  {
+    return new program{*this};
+  }
 };
 
+/* Cannot inherit from base_crtp because of the diamond problem. */
 class loop : public has_loc, public seq {
 public:
   loop(source_loc begin_pos, seq op_seq) noexcept :
     has_loc{begin_pos}, seq{std::move(op_seq)}
   {}
+  visitor::status accept(visitor &obj) override
+  {
+    return obj.visit(*this);
+  }
+  visitor::status accept(visitor &obj) const override
+  {
+    return obj.visit(*this);
+  }
+private:
+  base *clone(void) const override
+  {
+    return new loop{*this};
+  }
 };
 
-class read : public io {
+class read : public base_crtp<read>, public io {
 public:
   read(source_loc loc, ptrdiff_t offset) noexcept :
     io{std::move(loc), offset}
   {}
 };
 
-class write : public io {
+class write : public base_crtp<write>, public io {
 public:
   write(source_loc loc, ptrdiff_t offset) noexcept :
     io{std::move(loc), offset}
