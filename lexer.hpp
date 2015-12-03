@@ -53,7 +53,7 @@ public:
         case ',':
           tok.kind = token::GET_CHAR;
           return result_type::OK;
-        
+
 #if defined(BFC_COMMENT_EXT) && BFC_COMMENT_EXT
         case '#': /* comment support (syntax extension) */
           for (;;) {
@@ -79,7 +79,7 @@ private:
   {
     auto begin = loc.end();
     auto end = begin;
-    end.pos += 1;
+    end.off += 1;
     if (ch == '\n') {
       end.col = 0;
       end.row += 1;

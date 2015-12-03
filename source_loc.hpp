@@ -1,7 +1,6 @@
 #ifndef BFC_SOURCELOC_HPP
 #define BFC_SOURCELOC_HPP
 
-#include <cstddef>
 #include <memory>
 #include <ostream>
 #include <string>
