@@ -4,10 +4,6 @@
 namespace bfc {
 namespace ast {
 
-seq::seq(void) = default;
-
-seq::~seq(void) = default;
-
 void seq::swap(seq &other) noexcept
 {
   using std::swap;
