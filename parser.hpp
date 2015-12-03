@@ -7,10 +7,12 @@
 
 namespace bfc {
 
-template <class Lexer>
+template <class Source, class Traits = source_traits<Source>>
 class Parser {
 
     public:
+
+        using Lexer = lexer<Source, Traits>;
 
         Parser(Lexer lexer) : lexer(std::move(lexer)) {}
 
