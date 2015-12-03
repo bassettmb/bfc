@@ -17,7 +17,7 @@ public:
             return CONTINUE;
         }
         // else optimize inner sequence
-        return opt_base_visitor::handle_loop(node);
+        return opt_seq_base_visitor::handle_loop(node);
     }
     
     status visit(const loop &node) {
@@ -29,7 +29,7 @@ public:
             return CONTINUE;
         }
         // else optimize inner sequence
-        return opt_base_visitor::handle_loop(node);
+        return opt_seq_base_visitor::handle_loop(node);
     }
     
 private:

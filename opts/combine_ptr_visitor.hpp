@@ -27,7 +27,7 @@ public:
             }
         }
         // else just copy the node
-        return opt_base_visitor::handle_mov(node);
+        return opt_seq_base_visitor::handle_mov(node);
     }
     
     status visit(const mov &node) {
@@ -49,7 +49,7 @@ public:
             }
         }
         // else just copy the node
-        return opt_base_visitor::handle_mov(node);
+        return opt_seq_base_visitor::handle_mov(node);
     }
     
 private:

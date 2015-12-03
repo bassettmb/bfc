@@ -27,7 +27,7 @@ public:
             }
         }
         // else make node copy
-        return opt_base_visitor::handle_add(node);
+        return opt_seq_base_visitor::handle_add(node);
     }
     
     status visit(const add &node) {
@@ -49,7 +49,7 @@ public:
             }
         }
         // else make node copy
-        return opt_base_visitor::handle_add(node);
+        return opt_seq_base_visitor::handle_add(node);
     }
     
     status visit(sub &node) {
@@ -71,7 +71,7 @@ public:
             }
         }
         // else make node copy
-        return opt_base_visitor::handle_sub(node);
+        return opt_seq_base_visitor::handle_sub(node);
     }
     
     status visit(const sub &node) {
@@ -93,7 +93,7 @@ public:
             }
         }
         // else make node copy
-        return opt_base_visitor::handle_sub(node);
+        return opt_seq_base_visitor::handle_sub(node);
     }
     
 private:
