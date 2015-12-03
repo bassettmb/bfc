@@ -5,7 +5,7 @@
 #include "ast/base.hpp"
 #include "ast/seq.hpp"
 #include "ast/visitor.hpp"
-#include "sourceloc.hpp"
+#include "source_loc.hpp"
 #include <cstddef>
 
 namespace bfc {
@@ -36,12 +36,12 @@ private:
 /* Trait for nodes having a source position. */
 class has_loc {
 public:
-  sourceloc loc(void) const noexcept { return node_loc; }
+  source_loc loc(void) const noexcept { return node_loc; }
 protected:
-  has_loc(sourceloc node_loc) noexcept : node_loc{std::move(node_loc)} {}
+  has_loc(source_loc node_loc) noexcept : node_loc{std::move(node_loc)} {}
   ~has_loc() = default;
 private:
-  sourceloc node_loc;
+  source_loc node_loc;
 };
 
 /* Trait for nodes holding an offset (to the brainfuck heap pointer). */
@@ -71,7 +71,7 @@ private:
 /* Abstract base class for arithmetic operation nodes. */
 class arith : public has_loc, public has_offset, public has_value {
 protected:
-  arith(sourceloc loc, ptrdiff_t offset, bf_value value) noexcept :
+  arith(source_loc loc, ptrdiff_t offset, bf_value value) noexcept :
     has_loc{loc}, has_offset{offset}, has_value{value}
   {}
   ~arith() = default;
@@ -80,16 +80,16 @@ protected:
 /* Abstract base class for pointer arithmetic operation nodes. */
 class ptr_op : public has_loc, public has_offset {
 protected:
-  ptr_op(sourceloc loc, ptrdiff_t offset) noexcept :
+  ptr_op(source_loc loc, ptrdiff_t offset) noexcept :
     has_loc{loc}, has_offset{offset}
   {}
   ~ptr_op() = default;
 };
 
 /* Abstract base class for io operation nodes. */
-class io : public base, public has_loc, public has_offset {
+class io : public has_loc, public has_offset {
 protected:
-  io(sourceloc loc, ptrdiff_t offset) noexcept :
+  io(source_loc loc, ptrdiff_t offset) noexcept :
     has_loc{std::move(loc)}, has_offset{offset}
   {}
   ~io() = default;
