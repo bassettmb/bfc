@@ -20,7 +20,6 @@ public:
   lexer(source_type source) : source(std::move(source)) {}
 
   result_type next(token &tok) noexcept {
-    token::type kind;
     for (;;) {
       int ch = traits::next(source);
       advance(ch);
