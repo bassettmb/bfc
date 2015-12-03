@@ -60,36 +60,52 @@ class Parser {
                     case result_type::OK:
                         switch (kind) {
                             case token::INC:
+                              {
                                 ast_add add(loc, 0, 1);
                                 loopAst.push_back(add);
                                 break;
+                              }
                             case token::DEC:
+                              {
                                 ast_sub sub(loc, 0, 1);
                                 loopAst.push_back(sub);
                                 break;
+                              }
                             case token::MOVE_R:
+                              {
                                 ast_mov move_r(loc, 1);
                                 loopAst.push_back(move_r);
                                 break;
+                              }
                             case token::MOVE_L:
+                              {
                                 ast_mov move_l(loc, -1);
                                 loopAst.push_back(move_l);
                                 break;
+                              }
                             case token::LOOP_BEGIN:
+                              {
                                 ast_loop innerLoop = updateLoop(loc);
                                 loopAst.push_back(innerLoop);
                                 break;
+                              }
                             case token::LOOP_END:
+                              {
                                 ast_loop loop(loopPos, loopAst);
                                 return loop;
+                              }
                             case token::PUT_CHAR:
+                              {
                                 ast_write write(loc, 0);
                                 loopAst.push_back(write);
                                 break;
+                              }
                             case token::GET_CHAR:
+                              {
                                 ast_read read(loc, 0);
                                 loopAst.push_back(read);
                                 break;
+                              }
                             default:
                         }
                         break; /* result_type::OK */
@@ -107,35 +123,50 @@ class Parser {
 
             switch (kind) {
                 case token::INC:
+                  {
                     ast_add add(loc, 0, 1);
                     astSeq.push_back(add);
                     break;
+                  }
                 case token::DEC:
+                  {
                     ast_sub sub(loc, 0, 1);
                     astSeq.push_back(sub);
                     break;
+                  }
                 case token::MOVE_R:
+                  {
                     ast_mov move_r(loc, 1);
                     astSeq.push_back(move_r);
                     break;
+                  }
                 case token::MOVE_L:
+                  {
                     ast_mov move_l(loc, -1);
                     astSeq.push_back(move_l);
                     break;
+                  }
                 case token::LOOP_BEGIN:
+                  {
                     ast_loop loop = updateLoop(loc);
                     astSeq.push_back(loop);
                     break;
+                  }
                 case token::LOOP_END:
                     // Throw Exception (No open loop to close)
+                  break;
                 case token::PUT_CHAR:
+                  {
                     ast_write write(loc, 0);
                     astSeq.push_back(write);
                     break;
+                  }
                 case token::GET_CHAR:
+                  {
                     ast_read read(loc, 0);
                     astSeq.push_back(read);
                     break;
+                  }
                 default:
 
             }
