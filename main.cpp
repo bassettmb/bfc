@@ -15,13 +15,13 @@ using namespace bfc;
 static void
 print_usage(FILE *out)
 {
-  fprintf(out, "usage: %s <source-file>", PROGNAME);
+  fprintf(out, "usage: %s <source-file>\n", PROGNAME);
 }
 
 static void
 print_filename_error(FILE *out)
 {
-  fprintf(out, "file must be of type %s", FILETYPE);
+  fprintf(out, "file must be of type %s\n", FILETYPE);
 }
 
 static int
