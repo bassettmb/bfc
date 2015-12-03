@@ -7,9 +7,18 @@ namespace ast {
 class dead_loops_visitor : public opt_seq_base_visitor {
 
 public:
+
+    dead_loops_visitor(void) : maybeProgramStart(true) {}
     
     status visit(loop &node) {
-        // test if previous node make this a dead loop
+        // test if this is the first node of a program sequence
+        if (maybeProgramStart && opt_seq.empty()) {
+            // cells init to 0 on start, this loop is dead
+            return CONTINUE;
+        }
+        // mark that we are past the start of the program
+        maybeProgramStart = false;
+        // test if previous node makes this a dead loop
         test_dead_loop_visitor v;
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
@@ -21,7 +30,14 @@ public:
     }
     
     status visit(const loop &node) {
-        // test if previous node make this a dead loop
+        // test if this is the first node of a program sequence
+        if (maybeProgramStart && opt_seq.empty()) {
+            // cells init to 0 on start, this loop is dead
+            return CONTINUE;
+        }
+        // mark that we are past the start of the program
+        maybeProgramStart = false;
+        // test if previous node makes this a dead loop
         test_dead_loop_visitor v;
         node prev_node = opt_seq.back();
         if (prev_node.accept(v) == CONTINUE) {
@@ -33,6 +49,8 @@ public:
     }
     
 private:
+
+    bool maybeProgramStart;
 
     class test_dead_loop_visitor : public visitor {
         
