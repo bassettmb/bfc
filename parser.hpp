@@ -8,13 +8,13 @@
 namespace bfc {
 
 template <class Source, class Traits = source_traits<Source>>
-class Parser {
+class parser {
 
     public:
 
         using Lexer = lexer<Source, Traits>;
 
-        Parser(Lexer lexer) : lexer(std::move(lexer)) {}
+        parser(Lexer lexer) : lexer(std::move(lexer)) {}
 
         ast_node parse() {
             /* create result to hold lexer result */
@@ -29,8 +29,10 @@ class Parser {
                         updateAst(tok);
                         break;
                     case result_type::DONE:
+                        {
                         ast_node program(new ast_program(tok.loc, astSeq));
                         return program;
+                        }
                     case result_type::FAIL:
                     default:
                         break;
@@ -74,13 +76,13 @@ class Parser {
                               }
                             case token::MOVE_R:
                               {
-                                ast_node move_r(new ast_move(loc, 1));
+                                ast_node move_r(new ast_mov(loc, 1));
                                 loopAst.push_back(move_r);
                                 break;
                               }
                             case token::MOVE_L:
                               {
-                                ast_node move_l(new ast_move(loc, -1));
+                                ast_node move_l(new ast_mov(loc, -1));
                                 loopAst.push_back(move_l);
                                 break;
                               }
@@ -139,13 +141,13 @@ class Parser {
                   }
                 case token::MOVE_R:
                   {
-                    ast_node move_r(new ast_move(loc, 1));
+                    ast_node move_r(new ast_mov(loc, 1));
                     astSeq.push_back(move_r);
                     break;
                   }
                 case token::MOVE_L:
                   {
-                    ast_node move_l(new ast_move(loc, -1));
+                    ast_node move_l(new ast_mov(loc, -1));
                     astSeq.push_back(move_l);
                     break;
                   }
