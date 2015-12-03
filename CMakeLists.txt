@@ -15,6 +15,7 @@ add_subdirectory(ast)
 add_subdirectory(pprint)
 
 add_executable(bfc main.cpp)
+target_link_libraries(bfc ast pprint)
 
 
 # If we're running unit tests:
