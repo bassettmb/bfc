@@ -107,6 +107,24 @@ private:
             bf_value new_value() {
                 return new_val;
             }
+            
+            status visit(set &node) {
+                if (node.offset() != next_off) {
+                    return BREAK;
+                }
+                new_val = node.value()
+                isAdd ? new_val += next_val : new_val -= next_val;
+                node.value(new_val);
+            }
+            
+            status visit(const set &node) {
+                if (node.offset() != next_off) {
+                    return BREAK;
+                }
+                new_val = node.value()
+                isAdd ? new_val += next_val : new_val -= next_val;
+                node.value(new_val);
+            }
                 
             status visit(add &node) {
                 if (node.offset() != next_off) {
