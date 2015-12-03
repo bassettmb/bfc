@@ -39,7 +39,7 @@ handle_filepath(const char *filepath)
     }
   }
 
-  parser<stream_source> parser(lexer(stream_source(new std::fstream(filepath))));
+  parser<stream_source> parser{lexer{stream_source{new std::fstream{filepath}}}};
   ast_node ast = parser.parse();
 
   return 0;
