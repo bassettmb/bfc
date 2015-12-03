@@ -7,58 +7,6 @@ namespace ast {
 class dead_loops_visitor : public opt_seq_base_visitor {
 
 public:
-
-    status visit(program &node) {
-        // create sequence starting with SET(0)
-        // programs start with cells set to zero
-        // make this explicit to remove dead loops at the start
-        seq temp_seq;
-        set base(node.loc(), 0, 0);
-        node temp_node(base);
-        temp_seq.push_back(temp_node);
-        
-        // swap our optimized sequence for the empty one
-        opt_seq.swap(temp_seq);
-        // optimize the node's inner sequence
-        node.accept(*this);
-        // remove the redundant set node from the start
-        opt_seq.pop_front();
-        
-        // create a new node from the optimized sequence
-        program base(node.loc(), opt_seq);
-        node cur_node(base);
-        // swap back the old optimized sequence
-        opt_seq.swap(temp_seq);
-        // add the new node to the sequence
-        opt_seq.push_back(node);
-        return CONTINUE;
-    }
-    
-    status visit(const program &node) {
-        // create sequence starting with SET(0)
-        // programs start with cells set to zero
-        // make this explicit to remove dead loops at the start
-        seq temp_seq;
-        set base(node.loc(), 0, 0);
-        node temp_node(base);
-        temp_seq.push_back(temp_node);
-        
-        // swap our optimized sequence for the empty one
-        opt_seq.swap(temp_seq);
-        // optimize the node's inner sequence
-        node.accept(*this);
-        // remove the redundant set node from the start
-        opt_seq.pop_front();
-        
-        // create a new node from the optimized sequence
-        program base(node.loc(), opt_seq);
-        node cur_node(base);
-        // swap back the old optimized sequence
-        opt_seq.swap(temp_seq);
-        // add the new node to the sequence
-        opt_seq.push_back(node);
-        return CONTINUE;
-    }
     
     status visit(loop &node) {
         // test if previous node make this a dead loop
@@ -97,6 +45,7 @@ private:
             }
             
             // Loops only terminate when the current cell reaches 0
+            // Thus loops following loops are dead
             status visit(loop &node) { return CONTINUE; }
             status visit(const loop &node) { return CONTINUE; }
             
