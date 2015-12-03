@@ -1,6 +1,9 @@
 #include <cstdio>
 #include <cstring>
 #include <fstream>
+#include "source.hpp"
+#include "lexer.hpp"
+#include "parser.hpp"
 
 static const char PROGNAME[] = "bfc";
 static const char FILETYPE[] = "bf";
