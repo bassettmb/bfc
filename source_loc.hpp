@@ -63,9 +63,9 @@ public:
 
 private:
 
-  std::shared_ptr<std::string> source_name;
   source_pos begin_pos;
   source_pos end_pos;
+  std::shared_ptr<std::string> source_name;
 
 };
 
