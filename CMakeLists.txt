@@ -10,7 +10,10 @@ option(TEST "Build all tests." OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -Wno-unused-parameter")
 
 include_directories(${bfc_SOURCE_DIR})
+
 add_subdirectory(ast)
+add_subdirectory(pprint)
+
 add_executable(bfc main.cpp)
 
 
