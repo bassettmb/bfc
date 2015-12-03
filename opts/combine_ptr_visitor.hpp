@@ -13,17 +13,20 @@ public:
         if (node.offset() == 0) {
             return CONTINUE;
         }
-        // try to combine with the previous node if possible
-        test_combine_ptr_visitor v(node.offset());
-        node prev_node = opt_seq.back();
-        if (prev_node.accept(v) == CONTINUE) {
-            // discard the combined node if it is 0
-            if (v.new_offset() == 0) {
-                opt_seq.pop_back();
+        // Only attempt to combine if there is a previous node
+        if (!opt_seq.empty()) {
+            node prev_node = opt_seq.back();
+            // try to combine with the previous node if possible
+            try_combine_ptr_visitor v(node.offset());
+            if (prev_node.accept(v) == CONTINUE) {
+                // discard the combined node if it is 0
+                if (v.new_offset() == 0) {
+                    opt_seq.pop_back();
+                }
+                return CONTINUE;
             }
-            return CONTINUE;
         }
-        // else make node copy
+        // else just copy the node
         return opt_base_visitor::handle_mov(node);
     }
     
@@ -32,38 +35,42 @@ public:
         if (node.offset() == 0) {
             return CONTINUE;
         }
-        // try to combine with the previous node if possible
-        test_combine_ptr_visitor v(node.offset());
-        node prev_node = opt_seq.back();
-        if (prev_node.accept(v) == CONTINUE) {
-            // discard the combined node if it is 0
-            if (v.new_offset() == 0) {
-                opt_seq.pop_back();
+        // Only attempt to combine if there is a previous node
+        if (!opt_seq.empty()) {
+            node prev_node = opt_seq.back();
+            // try to combine with the previous node if possible
+            try_combine_ptr_visitor v(node.offset());
+            if (prev_node.accept(v) == CONTINUE) {
+                // discard the combined node if it is 0
+                if (v.new_offset() == 0) {
+                    opt_seq.pop_back();
+                }
+                return CONTINUE;
             }
-            return CONTINUE;
         }
-        // else make node copy
+        // else just copy the node
         return opt_base_visitor::handle_mov(node);
     }
     
 private:
 
-    class test_combine_ptr_visitor : public test_visitor {
+    class try_combine_ptr_visitor : public test_visitor {
         
         public:
-            test_combine_inc_visitor(ptrdiff_t offset) :
-                next_off(offset) {}
+            try_combine_inc_visitor(ptrdiff_t offset) : next_off(offset) {}
                 
             ptrdiff_t new_offset() {
                 return new_off;
             }
                 
             status visit(mov &node) {
+                // Combine the next node offset into this node
                 new_off = next_off + node.offset();
                 node.offset(new_off);
             }
             
             status visit(const mov &node) {
+                // Combine the next node offset into this node
                 new_off = next_off + node.offset();
                 node.offset(new_off);
             }
