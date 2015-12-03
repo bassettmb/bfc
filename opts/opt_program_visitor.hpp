@@ -4,7 +4,7 @@
 namespace bfc {
 namespace ast {
 
-class opt_program_visitor : visitor {
+class opt_program_visitor : public visitor {
 
 public:
 
