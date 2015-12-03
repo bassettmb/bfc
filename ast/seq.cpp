@@ -4,7 +4,9 @@
 namespace bfc {
 namespace ast {
 
-seq::seq(void) {}
+seq::seq(void) = default;
+
+seq::~seq(void) = default;
 
 void seq::swap(seq &other) noexcept
 {
@@ -108,7 +110,6 @@ seq::cend(void) const noexcept
   return elems.cend();
 }
 
-#if 0
 visitor::status
 seq::accept(visitor &visitor)
 {
@@ -140,7 +141,6 @@ seq::clone(void) const
 {
   return new seq{*this};
 }
-#endif
 
 }
 }
