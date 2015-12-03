@@ -23,6 +23,10 @@ class source_loc {
 
 public:
 
+  source_loc(void) :
+    source_loc{{0,0,0}, {0,0,0}, std::make_shared<std::string>("(unknown)")}
+  {}
+
   source_loc(source_pos begin, source_pos end, std::string name) noexcept :
     source_loc{begin, end, std::make_shared<std::string>(std::move(name))}
   {}
