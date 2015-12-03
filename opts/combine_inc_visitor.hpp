@@ -13,15 +13,18 @@ public:
         if (node.value() == 0) {
             return CONTINUE;
         }
-        // try to combine with the previous node if possible
-        test_combine_inc_visitor v(node.offset(), node.value(), true);
-        node prev_node = opt_seq.back();
-        if (prev_node.accept(v) == CONTINUE) {
-            // discard the combined node if it is 0
-            if (v.new_value() == 0) {
-                opt_seq.pop_back();
+        // Only attempt to combine if there is a previous node
+        if (!opt_seq.empty()) {
+            node prev_node = opt_seq.back();
+            // try to combine with the previous node if possible
+            try_combine_inc_visitor v(node.offset(), node.value(), true);
+            if (prev_node.accept(v) == CONTINUE) {
+                // discard the combined node if it is 0
+                if (v.new_value() == 0) {
+                    opt_seq.pop_back();
+                }
+                return CONTINUE;
             }
-            return CONTINUE;
         }
         // else make node copy
         return opt_base_visitor::handle_add(node);
@@ -32,15 +35,18 @@ public:
         if (node.value() == 0) {
             return CONTINUE;
         }
-        // try to combine with the previous node if possible
-        test_combine_inc_visitor v(node.offset(), node.value(), true);
-        node prev_node = opt_seq.back();
-        if (prev_node.accept(v) == CONTINUE) {
-            // discard the combined node if it is 0
-            if (v.new_value() == 0) {
-                opt_seq.pop_back();
+        // Only attempt to combine if there is a previous node
+        if (!opt_seq.empty()) {
+            node prev_node = opt_seq.back();
+            // try to combine with the previous node if possible
+            try_combine_inc_visitor v(node.offset(), node.value(), true);
+            if (prev_node.accept(v) == CONTINUE) {
+                // discard the combined node if it is 0
+                if (v.new_value() == 0) {
+                    opt_seq.pop_back();
+                }
+                return CONTINUE;
             }
-            return CONTINUE;
         }
         // else make node copy
         return opt_base_visitor::handle_add(node);
@@ -51,18 +57,21 @@ public:
         if (node.value() == 0) {
             return CONTINUE;
         }
-        // try to combine with the previous node if possible
-        test_combine_inc_visitor v(node.offset(), node.value(), true);
-        node prev_node = opt_seq.back();
-        if (prev_node.accept(v) == CONTINUE) {
-            // discard the combined node if it is 0
-            if (v.new_value() == 0) {
-                opt_seq.pop_back();
+        // Only attempt to combine if there is a previous node
+        if (!opt_seq.empty()) {
+            node prev_node = opt_seq.back();
+            // try to combine with the previous node if possible
+            try_combine_inc_visitor v(node.offset(), node.value(), false);
+            if (prev_node.accept(v) == CONTINUE) {
+                // discard the combined node if it is 0
+                if (v.new_value() == 0) {
+                    opt_seq.pop_back();
+                }
+                return CONTINUE;
             }
-            return CONTINUE;
         }
         // else make node copy
-        return opt_base_visitor::handle_add(node);
+        return opt_base_visitor::handle_sub(node);
     }
     
     status visit(const sub &node) {
@@ -70,27 +79,30 @@ public:
         if (node.value() == 0) {
             return CONTINUE;
         }
-        // try to combine with the previous node if possible
-        test_combine_inc_visitor v(node.offset(), node.value(), true);
-        node prev_node = opt_seq.back();
-        if (prev_node.accept(v) == CONTINUE) {
-            // discard the combined node if it is 0
-            if (v.new_value() == 0) {
-                opt_seq.pop_back();
+        // Only attempt to combine if there is a previous node
+        if (!opt_seq.empty()) {
+            node prev_node = opt_seq.back();
+            // try to combine with the previous node if possible
+            try_combine_inc_visitor v(node.offset(), node.value(), false);
+            if (prev_node.accept(v) == CONTINUE) {
+                // discard the combined node if it is 0
+                if (v.new_value() == 0) {
+                    opt_seq.pop_back();
+                }
+                return CONTINUE;
             }
-            return CONTINUE;
         }
         // else make node copy
-        return opt_base_visitor::handle_add(node);
+        return opt_base_visitor::handle_sub(node);
     }
     
 private:
 
-    class test_combine_inc_visitor : public test_visitor {
+    class try_combine_inc_visitor : public test_visitor {
         
         public:
-            test_combine_inc_visitor(ptrdiff_t offset, bf_value value, bool isAdd) :
-                next_off(offset), next_val(value), isAdd(isAdd) {}
+            try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
+                next_off(offset), next_val(val), isAdd(isAdd) {}
                 
             bf_value new_value() {
                 return new_val;
@@ -104,6 +116,7 @@ private:
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
+            
             status visit(const add &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
