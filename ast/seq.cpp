@@ -108,6 +108,7 @@ seq::cend(void) const noexcept
   return elems.cend();
 }
 
+#if 0
 visitor::status
 seq::accept(visitor &visitor)
 {
@@ -139,6 +140,7 @@ seq::clone(void) const
 {
   return new seq{*this};
 }
+#endif
 
 }
 }
