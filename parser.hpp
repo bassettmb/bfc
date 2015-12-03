@@ -16,7 +16,7 @@ class Parser {
 
         Parser(Lexer lexer) : lexer(std::move(lexer)) {}
 
-        ast_program parse() {
+        ast_node parse() {
             /* create result to hold lexer result */
             result_type res = result_type::OK;
             /* create token to pass into lexer */
@@ -29,10 +29,11 @@ class Parser {
                         updateAst(tok);
                         break;
                     case result_type::DONE:
-                        ast_program program(tok.loc, astSeq);
+                        ast_node program(new ast_program(tok.loc, astSeq));
                         return program;
                     case result_type::FAIL:
                     default:
+                        break;
                 }
             }
         }
@@ -44,7 +45,7 @@ class Parser {
         /* vector of instructions to return */
         ast_seq astSeq;
 
-        ast_loop updateLoop(source_loc loopPos){
+        ast_node updateLoop(source_loc loopPos){
             /* create result to hold lexer result */
             result_type res = result_type::OK;
             /* create token to pass into lexer */
@@ -61,57 +62,59 @@ class Parser {
                         switch (kind) {
                             case token::INC:
                               {
-                                ast_add add(loc, 0, 1);
+                                ast_node add(new ast_add(loc, 0, 1));
                                 loopAst.push_back(add);
                                 break;
                               }
                             case token::DEC:
                               {
-                                ast_sub sub(loc, 0, 1);
+                                ast_node sub(new ast_sub(loc, 0, 1));
                                 loopAst.push_back(sub);
                                 break;
                               }
                             case token::MOVE_R:
                               {
-                                ast_mov move_r(loc, 1);
+                                ast_node move_r(new ast_move(loc, 1));
                                 loopAst.push_back(move_r);
                                 break;
                               }
                             case token::MOVE_L:
                               {
-                                ast_mov move_l(loc, -1);
+                                ast_node move_l(new ast_move(loc, -1));
                                 loopAst.push_back(move_l);
                                 break;
                               }
                             case token::LOOP_BEGIN:
                               {
-                                ast_loop innerLoop = updateLoop(loc);
+                                ast_node innerLoop = updateLoop(loc);
                                 loopAst.push_back(innerLoop);
                                 break;
                               }
                             case token::LOOP_END:
                               {
-                                ast_loop loop(loopPos, loopAst);
+                                ast_node loop(new ast_loop(loopPos, loopAst));
                                 return loop;
                               }
                             case token::PUT_CHAR:
                               {
-                                ast_write write(loc, 0);
+                                ast_node write(new ast_write(loc, 0));
                                 loopAst.push_back(write);
                                 break;
                               }
                             case token::GET_CHAR:
                               {
-                                ast_read read(loc, 0);
+                                ast_node read(new ast_read(loc, 0));
                                 loopAst.push_back(read);
                                 break;
                               }
                             default:
+                                break;
                         }
                         break; /* result_type::OK */
                     case result_type::DONE:
                     case result_type::FAIL:
                     default:
+                        break;
                         // Throw Exception (ends without closing loop)
                 }
             }
@@ -124,31 +127,31 @@ class Parser {
             switch (kind) {
                 case token::INC:
                   {
-                    ast_add add(loc, 0, 1);
+                    ast_node add(new ast_add(loc, 0, 1));
                     astSeq.push_back(add);
                     break;
                   }
                 case token::DEC:
                   {
-                    ast_sub sub(loc, 0, 1);
+                    ast_node sub(new ast_sub(loc, 0, 1));
                     astSeq.push_back(sub);
                     break;
                   }
                 case token::MOVE_R:
                   {
-                    ast_mov move_r(loc, 1);
+                    ast_node move_r(new ast_move(loc, 1));
                     astSeq.push_back(move_r);
                     break;
                   }
                 case token::MOVE_L:
                   {
-                    ast_mov move_l(loc, -1);
+                    ast_node move_l(new ast_move(loc, -1));
                     astSeq.push_back(move_l);
                     break;
                   }
                 case token::LOOP_BEGIN:
                   {
-                    ast_loop loop = updateLoop(loc);
+                    ast_node loop = updateLoop(loc);
                     astSeq.push_back(loop);
                     break;
                   }
@@ -157,18 +160,18 @@ class Parser {
                   break;
                 case token::PUT_CHAR:
                   {
-                    ast_write write(loc, 0);
+                    ast_node write(new ast_write(loc, 0));
                     astSeq.push_back(write);
                     break;
                   }
                 case token::GET_CHAR:
                   {
-                    ast_read read(loc, 0);
+                    ast_node read(new ast_read(loc, 0));
                     astSeq.push_back(read);
                     break;
                   }
                 default:
-
+                    break;
             }
         }
 
