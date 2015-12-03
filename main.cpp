@@ -4,6 +4,7 @@
 #include "source.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
+#include "pprint/c_pprint.hpp"
 
 static const char PROGNAME[] = "bfc";
 static const char FILETYPE[] = "bf";
@@ -41,6 +42,9 @@ handle_filepath(const char *filepath)
 
   parser<stream_source> parser{lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
   ast_node ast = parser.parse();
+  pprint::c_pprint printer();
+  printer.emit(std::ofstream(strcat(filepath, ".c")), ast);
+
 
   return 0;
 }
