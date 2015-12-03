@@ -33,7 +33,7 @@ class pp_delegate : public ast::visitor {
 public:
 
   pp_delegate(std::ostream &out, const c_pprint::config &opts) :
-    ast::visitor{}, sink{out}, next_label_id{0}, opts{opts}
+    ast::visitor{}, next_label_id{0}, opts{opts}, sink{out}
   {}
 
   void emit(const ast::node &node)
