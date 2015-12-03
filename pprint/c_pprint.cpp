@@ -33,7 +33,10 @@ c_pprint::config::config(void) :
     "#define bfc_putc(off) putchar(bfc_hp[(off)])",
     "int main(void) {"
   },
-  postlude {"}"},
+  postlude {
+    "  return 0;",
+    "}"
+  },
   label_prefix{"bfc_l"},
   hp_iden{"bfc_hp"},
   getc_iden{"bfc_getc"},
