@@ -14,8 +14,10 @@ class optimizer {
         optimizer(bool clean, bool quick) : clean(clean), quick(quick)  {}
         
         ast_node optimize(consts ast_node &program) {
+            return program;
+            /*
             // create list of optimizers
-            std::vector<ast_visitor> opts;
+            std::vector<opt_seq_base_visitor> opts;
             combine_inc_visitor inc;
             opts.push_back(inc);
             
@@ -41,7 +43,7 @@ class optimizer {
             }
             
             return opt_prog.result();
-            
+            */
         }    
 
     private:
