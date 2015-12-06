@@ -18,7 +18,8 @@ public:
   using iterator = typename container::iterator;
   using const_iterator = typename container::const_iterator;
 
-  seq(void);
+  seq(void) = default;
+  ~seq(void) = default;
 
   template <class InputIt>
   seq(InputIt begin, InputIt end);

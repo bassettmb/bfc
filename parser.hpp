@@ -1,20 +1,23 @@
 #ifndef BFC_PARSER_HPP
 #define BFC_PARSER_HPP
 
+#include <stdexcept>
 #include "lexer.hpp"
 #include "result.hpp"
 #include "ast/ast.hpp"
 
 namespace bfc {
 
-template <class Lexer>
+template <class Source, class Traits = source_traits<Source>>
 class parser {
 
     public:
 
-        Parser(Lexer lexer) : lexer(std::move(lexer)) {}
+        using Lexer = lexer<Source, Traits>;
 
-        ast_program parse() {
+        parser(Lexer lexer) : lexer(std::move(lexer)) {}
+
+        ast_node parse() {
             /* create result to hold lexer result */
             result_type res;
             /* create token to pass into lexer */
@@ -27,10 +30,14 @@ class parser {
                         updateAst(tok);
                         break;
                     case result_type::DONE:
-                        ast_program program(tok.loc, astSeq);
+                        {
+                        ast_node program(new ast_program(tok.loc, astSeq));
                         return program;
+                        }
                     case result_type::FAIL:
                     default:
+                        throw std::runtime_error("Error: Exception occured when reading input file");
+                        break;
                 }
             }
         }
@@ -42,7 +49,7 @@ class parser {
         /* vector of instructions to return */
         ast_seq astSeq;
 
-        ast_loop updateLoop(source_loc loopPos){
+        ast_node updateLoop(source_loc loopPos){
             /* create result to hold lexer result */
             result_type res = result_type::OK;
             /* create token to pass into lexer */
@@ -58,43 +65,56 @@ class parser {
                     case result_type::OK:
                         switch (kind) {
                             case token::INC:
-                                ast_add add(loc, 0, 1);
-                                loopAst.push_back(add);
+                              {
+                                loopAst.emplace_back(new ast_add(loc, 0, 1));
                                 break;
+                              }
                             case token::DEC:
-                                ast_sub sub(loc, 0, 1);
-                                loopAst.push_back(sub);
+                              {
+                                loopAst.emplace_back(new ast_sub(loc, 0, 1));
                                 break;
+                              }
                             case token::MOVE_R:
-                                ast_mov move_r(loc, 1);
-                                loopAst.push_back(move_r);
+                              {
+                                loopAst.emplace_back(new ast_mov(loc, 1));
                                 break;
+                              }
                             case token::MOVE_L:
-                                ast_mov move_l(loc, -1);
-                                loopAst.push_back(move_l);
+                              {
+                                loopAst.emplace_back(new ast_mov(loc, -1));
                                 break;
+                              }
                             case token::LOOP_BEGIN:
-                                ast_loop innerLoop = updateLoop(loc);
+                              {
+                                ast_node innerLoop = updateLoop(loc);
                                 loopAst.push_back(innerLoop);
                                 break;
+                              }
                             case token::LOOP_END:
-                                ast_loop loop(loopPos, loopAst);
+                              {
+                                ast_node loop(new ast_loop(loopPos, loopAst));
                                 return loop;
+                              }
                             case token::PUT_CHAR:
-                                ast_write write(loc, 0);
-                                loopAst.push_back(write);
+                              {
+                                loopAst.emplace_back(new ast_write(loc, 0));
                                 break;
+                              }
                             case token::GET_CHAR:
-                                ast_read read(loc, 0);
-                                loopAst.push_back(read);
+                              {
+                                loopAst.emplace_back(new ast_read(loc, 0));
                                 break;
+                              }
                             default:
+                                break;
                         }
                         break; /* result_type::OK */
                     case result_type::DONE:
                     case result_type::FAIL:
                     default:
                         // Throw Exception (ends without closing loop)
+                        throw std::runtime_error("Error: unmatched \'[\' at line " + loopPos.begin().row + " column " + loopPos.begin().col);
+                        break;
                 }
             }
         }
@@ -105,37 +125,47 @@ class parser {
 
             switch (tok.kind) {
                 case token::INC:
-                    ast_add add(loc, 0, 1);
-                    astSeq.push_back(add);
+                  {
+                    astSeq.emplace_back(new ast_add(loc, 0, 1));
                     break;
+                  }
                 case token::DEC:
-                    ast_sub sub(loc, 0, 1);
-                    astSeq.push_back(sub);
+                  {
+                    astSeq.emplace_back(new ast_sub(loc, 0, 1));
                     break;
+                  }
                 case token::MOVE_R:
-                    ast_mov move_r(loc, 1);
-                    astSeq.push_back(move_r);
+                  {
+                    astSeq.emplace_back(new ast_mov(loc, 1));
                     break;
+                  }
                 case token::MOVE_L:
-                    ast_mov move_l(loc, -1);
-                    astSeq.push_back(move_l);
+                  {
+                    astSeq.emplace_back(new ast_mov(loc, -1));
                     break;
+                  }
                 case token::LOOP_BEGIN:
-                    ast_loop loop = updateLoop(loc);
+                  {
+                    ast_node loop = updateLoop(loc);
                     astSeq.push_back(loop);
                     break;
+                  }
                 case token::LOOP_END:
                     // Throw Exception (No open loop to close)
+                    throw std::runtime_error("Error: unmatched \']\' at line " + loc.begin().row + " column " + loc.begin().col);
+                  break;
                 case token::PUT_CHAR:
-                    ast_write write(loc, 0);
-                    astSeq.push_back(write);
+                  {
+                    astSeq.emplace_back(new ast_write(loc, 0));
                     break;
+                  }
                 case token::GET_CHAR:
-                    ast_read read(loc, 0);
-                    astSeq.push_back(read);
+                  {
+                    astSeq.emplace_back(new ast_read(loc, 0));
                     break;
+                  }
                 default:
-
+                    break;
             }
         }
 

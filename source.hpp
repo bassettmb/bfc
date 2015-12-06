@@ -145,8 +145,8 @@ private:
       source->exceptions(0);
   }
 
-  destruct_action on_destruct;
   std::unique_ptr<source_type> source;
+  destruct_action on_destruct;
 
 };
 
@@ -249,11 +249,11 @@ public:
 
 private:
 
-  destruct_action on_destruct;
   /* Note: mutable since feof and ferror do not accept a const argument yet
    *       also do not change FILE state.
    */
   mutable std::unique_ptr<source_type> source;
+  destruct_action on_destruct;
 
 };
 

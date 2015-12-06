@@ -21,6 +21,7 @@ using ast_mul = ast::mul;
 using ast_read = ast::read;
 using ast_write = ast::write;
 
+using ast_seq = ast::seq;
 }
 
 #endif /* !BFC_AST_HPP */
