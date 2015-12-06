@@ -7,6 +7,7 @@
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "pprint/c_pprint.hpp"
+#include "optimizer.hpp"
 
 static const char PROGNAME[] = "bfc";
 static const char FILETYPE[] = "bf";
@@ -45,9 +46,10 @@ handle_filepath(const char *filepath)
 
   parser<stream_source> parser{
     lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
+  optimizer optimizer{false, true};
   try
   {
-    ast_node ast = parser.parse();
+    ast_node ast = optimizer.optimize(parser.parse());
   }
   catch (std::runtime_error& e)
   {
