@@ -1,6 +1,7 @@
 #ifndef BFC_PARSER_HPP
 #define BFC_PARSER_HPP
 
+#include <stdexcept>
 #include "lexer.hpp"
 #include "result.hpp"
 #include "ast/ast.hpp"
@@ -35,6 +36,7 @@ class parser {
                         }
                     case result_type::FAIL:
                     default:
+                        throw std::runtime_error("Error: Exception occured when reading input file");
                         break;
                 }
             }
@@ -110,8 +112,9 @@ class parser {
                     case result_type::DONE:
                     case result_type::FAIL:
                     default:
-                        break;
                         // Throw Exception (ends without closing loop)
+                        throw std::runtime_error("Error: unmatched \'[\' at line " + loopPos.begin().row + " column " + loopPos.begin().col);
+                        break;
                 }
             }
         }
@@ -149,6 +152,7 @@ class parser {
                   }
                 case token::LOOP_END:
                     // Throw Exception (No open loop to close)
+                    throw std::runtime_error("Error: unmatched \']\' at line " + loc.begin().row + " column " + loc.begin().col);
                   break;
                 case token::PUT_CHAR:
                   {

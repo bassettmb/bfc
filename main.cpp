@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <fstream>
+#include <stdexcept>
 #include "source.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
@@ -44,7 +45,14 @@ handle_filepath(const char *filepath)
 
   parser<stream_source> parser{
     lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
-  ast_node ast = parser.parse();
+  try
+  {
+    ast_node ast = parser.parse();
+  }
+  catch (std::runtime_error& e)
+  {
+    printf("%s", e.what());
+  }
   pprint::c_pprint printer{};
   std::ofstream output{std::string{filepath} + ".c"};
   printer.emit(output, ast);
