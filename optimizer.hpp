@@ -1,7 +1,9 @@
 #ifndef BFC_OPTIMIZER_HPP
 #define BFC_OPTIMIZER_HPP
 
-#include "ast/ast.hpp"
+#include <vector>
+#include "ast.hpp"
+#include "opts.hpp"
 
 namespace bfc {
 
