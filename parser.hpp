@@ -64,26 +64,22 @@ class parser {
                         switch (kind) {
                             case token::INC:
                               {
-                                ast_node add(new ast_add(loc, 0, 1));
-                                loopAst.push_back(add);
+                                loopAst.emplace_back(new ast_add(loc, 0, 1));
                                 break;
                               }
                             case token::DEC:
                               {
-                                ast_node sub(new ast_sub(loc, 0, 1));
-                                loopAst.push_back(sub);
+                                loopAst.emplace_back(new ast_sub(loc, 0, 1));
                                 break;
                               }
                             case token::MOVE_R:
                               {
-                                ast_node move_r(new ast_mov(loc, 1));
-                                loopAst.push_back(move_r);
+                                loopAst.emplace_back(new ast_mov(loc, 1));
                                 break;
                               }
                             case token::MOVE_L:
                               {
-                                ast_node move_l(new ast_mov(loc, -1));
-                                loopAst.push_back(move_l);
+                                loopAst.emplace_back(new ast_mov(loc, -1));
                                 break;
                               }
                             case token::LOOP_BEGIN:
@@ -99,14 +95,12 @@ class parser {
                               }
                             case token::PUT_CHAR:
                               {
-                                ast_node write(new ast_write(loc, 0));
-                                loopAst.push_back(write);
+                                loopAst.emplace_back(new ast_write(loc, 0));
                                 break;
                               }
                             case token::GET_CHAR:
                               {
-                                ast_node read(new ast_read(loc, 0));
-                                loopAst.push_back(read);
+                                loopAst.emplace_back(new ast_read(loc, 0));
                                 break;
                               }
                             default:
@@ -129,26 +123,22 @@ class parser {
             switch (tok.kind) {
                 case token::INC:
                   {
-                    ast_node add(new ast_add(loc, 0, 1));
-                    astSeq.push_back(add);
+                    astSeq.emplace_back(new ast_add(loc, 0, 1));
                     break;
                   }
                 case token::DEC:
                   {
-                    ast_node sub(new ast_sub(loc, 0, 1));
-                    astSeq.push_back(sub);
+                    astSeq.emplace_back(new ast_sub(loc, 0, 1));
                     break;
                   }
                 case token::MOVE_R:
                   {
-                    ast_node move_r(new ast_mov(loc, 1));
-                    astSeq.push_back(move_r);
+                    astSeq.emplace_back(new ast_mov(loc, 1));
                     break;
                   }
                 case token::MOVE_L:
                   {
-                    ast_node move_l(new ast_mov(loc, -1));
-                    astSeq.push_back(move_l);
+                    astSeq.emplace_back(new ast_mov(loc, -1));
                     break;
                   }
                 case token::LOOP_BEGIN:
@@ -162,14 +152,12 @@ class parser {
                   break;
                 case token::PUT_CHAR:
                   {
-                    ast_node write(new ast_write(loc, 0));
-                    astSeq.push_back(write);
+                    astSeq.emplace_back(new ast_write(loc, 0));
                     break;
                   }
                 case token::GET_CHAR:
                   {
-                    ast_node read(new ast_read(loc, 0));
-                    astSeq.push_back(read);
+                    astSeq.emplace_back(new ast_read(loc, 0));
                     break;
                   }
                 default:
