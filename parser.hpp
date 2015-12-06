@@ -39,8 +39,7 @@ class parser {
                     default:
                         throw std::runtime_error("Error: Exception occured when reading input file");
                         break;
-                }
-            }
+                } }
         }
 
     private:
