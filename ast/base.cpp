@@ -98,7 +98,7 @@ visitor::status
 node::accept(visitor &visitor) const
 {
   /* This cast is necessary because otherwise we manage a turn const pointer
-   * non-const and why the hell fuck.
+   * non-const and why the heck fudge.
    */
   return static_cast<const base *>(elem.get())->accept(visitor);
 }
