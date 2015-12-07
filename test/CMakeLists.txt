@@ -15,7 +15,7 @@ macro(define_test exec_file source_file)
   add_test("${exec_file}" "${exec_file}")
   add_dependencies(check "${exec_file}")
 endmacro(define_test)
-# Example:
+
    add_executable(run_tests lexer_test.cpp)
    target_link_libraries(run_tests gtest gtest_main)
    add_test(run_tests run_tests)
