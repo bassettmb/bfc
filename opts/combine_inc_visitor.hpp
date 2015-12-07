@@ -1,6 +1,10 @@
 #ifndef BFC_COMBINE_INC_VISITOR_HPP
 #define BFC_COMBINE_INC_VISITOR_HPP
 
+#include "ast/mod.hpp"
+#include "ast/base.hpp"
+#include "types.h"
+
 namespace bfc {
 namespace ast {
 
@@ -143,6 +147,7 @@ private:
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
+            
             status visit(sub &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
@@ -151,6 +156,7 @@ private:
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
             }
+            
             status visit(const sub &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
