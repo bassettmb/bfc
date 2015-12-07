@@ -58,7 +58,7 @@ handle_filepath(const char *filepath)
   }
   pprint::c_pprint printer{};
   std::ofstream output{std::string{filepath} + ".c"};
-  printer.emit(output, ast);
+  printer.emit(output, astNode);
 
 
   return 0;
