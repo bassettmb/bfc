@@ -47,7 +47,7 @@ handle_filepath(const char *filepath)
     lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
   try
   {
-    ast_node ast = parser.parse();
+    ast_node astNode= parser.parse();
   }
   catch (std::runtime_error& e)
   {
@@ -56,7 +56,7 @@ handle_filepath(const char *filepath)
   }
   pprint::c_pprint printer{};
   std::ofstream output{std::string{filepath} + ".c"};
-  printer.emit(output, ast);
+  printer.emit(output, astNode);
 
 
   return 0;
