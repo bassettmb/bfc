@@ -52,6 +52,7 @@ handle_filepath(const char *filepath)
   catch (std::runtime_error& e)
   {
     printf("%s", e.what());
+    return -2;
   }
   pprint::c_pprint printer{};
   std::ofstream output{std::string{filepath} + ".c"};
