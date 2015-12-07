@@ -18,24 +18,40 @@ class opt_program_visitor : public visitor {
 
 public:
 
-    opt_program_visitor(vector vec) : opts(std::move(vec)) {}
+    opt_program_visitor(vector vec) : opts(std::move(vec)) {
+        if (opts.empty()) {
+            // add a single copying visitor
+            opt_seq_base_visitor cpy;
+            opts.push_back(cpy);
+        }
+    }
 
     node result(void) {
         return opt_program;
     }
 
     status visit(program &node) {
-        node res;
-        for (const auto &elem : opts) {
-            res.accept(elem);
-            res = elem.result();
+        node.accept(opts[0]);
+        seq result =  opts[0].result();
+        if(opts.size() > 1) {
+            for (int i = 1; i < opts.size(); ++i) {
+                result.accept(opts[i]);
+                result = opts[i].result();
+            }
         }
-            
-  }
+        opt_program.reset(new program(node.loc(), result);
     }
     
     status visit(const program &node) {
-        // TODO launch optimizations here
+        node.accept(opts[0]);
+        seq result =  opts[0].result();
+        if(opts.size() > 1) {
+            for (int i = 1; i < opts.size(); ++i) {
+                result.accept(opts[i]);
+                result = opts[i].result();
+            }
+        }
+        opt_program.reset(new program(node.loc(), result);
     }
     
     status visit(set &node) {
