@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include <fstream>
 #include "source.hpp"
 #include "lexer.hpp"
