@@ -7,7 +7,7 @@ set(bfc_VERSION_MINOR 2)
 set(bfc_VERSION_PATCH 0)
 
 option(TEST "Build all tests." OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -Wno-unused-parameter")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -Wno-unused-parameter -Wno-unused-function")
 
 include_directories(${bfc_SOURCE_DIR})
 
