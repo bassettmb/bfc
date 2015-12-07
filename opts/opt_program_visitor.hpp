@@ -1,6 +1,12 @@
 #ifndef BFC_OPT_PROGRAM_VISITOR_HPP
 #define BFC_OPT_PROGRAM_VISITOR_HPP
 
+#include <stdexcept>
+#include <string>
+#include <vector>
+#include "ast/visitor.hpp"
+#include "opts/opt_seq_base_visitor"
+
 namespace bfc {
 namespace ast {
 
@@ -8,15 +14,24 @@ class opt_program_visitor : public visitor {
     
     using error = std::runtime_error;
     using string = std::string;
+    using vector = std::vector<opt_seq_base_visitor>;
 
 public:
+
+    opt_program_visitor(vector vec) : opts(std::move(vec)) {}
 
     node result(void) {
         return opt_program;
     }
 
     status visit(program &node) {
-        // TODO launch optimizations here
+        node res;
+        for (const auto &elem : opts) {
+            res.accept(elem);
+            res = elem.result();
+        }
+            
+  }
     }
     
     status visit(const program &node) {
@@ -91,6 +106,9 @@ private:
 
     // node containing optimized program
     node opt_program;
+    
+    // list of optimizers to run
+    vector opts;
     
     // function to create an error message
     error create_type_err(const string &info) {
