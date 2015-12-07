@@ -50,15 +50,15 @@ handle_filepath(const char *filepath)
   try
   {
     ast_node ast = optimizer.optimize(parser.parse());
+    pprint::c_pprint printer{};
+    std::ofstream output{std::string{filepath} + ".c"};
+    printer.emit(output, astNode);
   }
   catch (std::runtime_error& e)
   {
     printf("%s", e.what());
     return -2;
   }
-  pprint::c_pprint printer{};
-  std::ofstream output{std::string{filepath} + ".c"};
-  printer.emit(output, astNode);
 
 
   return 0;
