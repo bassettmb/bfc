@@ -17,15 +17,9 @@ add_subdirectory(pprint)
 add_executable(bfc main.cpp)
 target_link_libraries(bfc ast pprint)
 
-
-# If we're running unit tests:
-if (TEST)
-
-  # Add the googletest framework to the source tree
-  add_subdirectory(googletest EXCLUDE_FROM_ALL)
-  enable_testing()
-  include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-  add_subdirectory(test EXCLUDE_FROM_ALL)
-
-endif()
+enable_testing()
+# Add the googletest framework to the source tree
+add_subdirectory(googletest EXCLUDE_FROM_ALL)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+add_custom_target(check "${CMAKE_CTEST_COMMAND}" -V)
+add_subdirectory(test EXCLUDE_FROM_ALL)
