@@ -17,5 +17,6 @@ macro(define_test exec_file source_file)
 endmacro(define_test)
 
    add_executable(run_tests lexer_test.cpp)
+   add_executable(run_tests parser_test.cpp)
    target_link_libraries(run_tests gtest gtest_main)
    add_test(run_tests run_tests)
