@@ -16,7 +16,7 @@ class parser {
 
         using Lexer = lexer<Source, Traits>;
 
-        parser(Lexer lexer) : lexer(std::move(lexer)) {}
+        parser(Lexer lexer) : lex(std::move(lexer)) {}
 
         ast_node parse() {
             /* create result to hold lexer result */
@@ -25,7 +25,7 @@ class parser {
             token tok{};
 
             for(;;) {
-                res = lexer.next(tok);
+                res = lex.next(tok);
                 switch (res) {
                     case result_type::OK:
                         updateAst(tok);
@@ -44,7 +44,7 @@ class parser {
 
     private:
 
-        Lexer lexer;
+        Lexer lex;
 
         /* vector of instructions to return */
         ast_seq astSeq;
@@ -58,7 +58,7 @@ class parser {
             ast_seq loopAst{};
 
             for(;;) {
-                res = lexer.next(tok);
+                res = lex.next(tok);
                 token::type kind = tok.kind;
                 source_loc loc = tok.loc;
                 switch (res) {
