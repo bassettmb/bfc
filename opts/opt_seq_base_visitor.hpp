@@ -1,6 +1,11 @@
 #ifndef BFC_OPT_SEQ_BASE_VISITOR_HPP
 #define BFC_OPT_SEQ_BASE_VISITOR_HPP
 
+#include <stdexcept>
+#include "ast/mod.hpp"
+#include "ast/seq.hpp"
+#include "ast/visitor.hpp"
+
 namespace bfc {
 namespace ast {
 
@@ -89,72 +94,52 @@ public:
 protected:
 
     status handle_set(set &node) {
-        set base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new set(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_set(const set &node) {
-        set base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new set(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_add(add &node) {
-        add base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new add(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_add(const add &node) {
-        add base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new add(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_sub(sub &node) {
-        sub base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new sub(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_sub(const sub &node) {
-        sub base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new sub(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_mul(mul &node) {
-        mul base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new mul(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_mul(const mul &node) {
-        mul base(node.loc(), node.offset(), node.value());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new mul(node.loc(), node.offset(), node.value());
         return CONTINUE;
     }
     
     status handle_mov(mov &node) {
-        mov base(node.loc(), node.offset());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new mov(node.loc(), node.offset());
         return CONTINUE;
     }
     
     status handle_mov(const mov &node) {
-        mov base(node.loc(), node.offset());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new mov(node.loc(), node.offset());
         return CONTINUE;
     }
     
@@ -165,13 +150,10 @@ protected:
         opt_seq.swap(temp_seq);
         // optimize the node's inner sequence
         node.accept(*this);
-        // create a new node from the optimized sequence
-        loop base(node.loc(), opt_seq);
-        node cur_node(base);
         // swap back the old optimized sequence
         opt_seq.swap(temp_seq);
-        // add the new node to the sequence
-        opt_seq.push_back(node);
+        // create a new node and add to the sequence
+        opt_seq.emplace_back(new loop(node.loc(), temp_seq);
         return CONTINUE;
     }
     
@@ -182,41 +164,30 @@ protected:
         opt_seq.swap(temp_seq);
         // optimize the node's inner sequence
         node.accept(*this);
-        // create a new node from the optimized sequence
-        loop base(node.loc(), opt_seq);
-        node cur_node(base);
         // swap back the old optimized sequence
         opt_seq.swap(temp_seq);
-        // add the new node to the sequence
-        opt_seq.push_back(node);
+        // create a new node and add to the sequence
+        opt_seq.emplace_back(new loop(node.loc(), temp_seq);
         return CONTINUE;
     }
     
     status handle_read(read &node) {
-        read base(node.loc(), node.offset());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new read(node.loc(), node.offset());
         return CONTINUE;
     }
     
     status handle_read(const read &node) {
-        read base(node.loc(), node.offset());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new read(node.loc(), node.offset());
         return CONTINUE;
     }
     
     status handle_write(write &node) {
-        write base(node.loc(), node.offset());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new write(node.loc(), node.offset());
         return CONTINUE;
     }
     
     status handle_write(const write &node) {
-        write base(node.loc(), node.offset());
-        node cur_node(base);
-        opt_seq.push_back(node);
+        opt_seq.emplace_back(new write(node.loc(), node.offset());
         return CONTINUE;
     }
     
