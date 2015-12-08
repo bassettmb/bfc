@@ -131,18 +131,18 @@ private:
       sink << *begin << std::endl;
   }
 
-  void pp_label_name(unsigned long id)
+  void pp_label_name(label_id id)
   {
     sink << opts.label_prefix << id;
   }
 
-  void pp_label(unsigned long id)
+  void pp_label(label_id id)
   {
     pp_label_name(id);
     sink << ':' << std::endl;
   }
 
-  void pp_jump(unsigned long id)
+  void pp_jump(label_id id)
   {
     pp_indent();
     sink << "goto ";
