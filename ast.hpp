@@ -17,6 +17,7 @@ using ast_mov = ast::mov;
 using ast_add = ast::add;
 using ast_sub = ast::sub;
 using ast_mul = ast::mul;
+using ast_set = ast::set;
 
 using ast_read = ast::read;
 using ast_write = ast::write;
