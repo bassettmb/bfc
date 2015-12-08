@@ -1,14 +1,12 @@
 #ifndef BFC_COMBINE_INC_VISITOR_HPP
 #define BFC_COMBINE_INC_VISITOR_HPP
 
-#include "assert.h"
 #include "ast/mod.hpp"
 #include "ast/base.hpp"
 #include "test_visitor.hpp"
 #include "types.h"
 
-namespace bfc {
-namespace ast {
+namespace bfc { namespace ast {
 
 class combine_inc_visitor : public opt_seq_base_visitor {
 
@@ -20,7 +18,6 @@ public:
     };
 
     status visit(add &node) {
-      assert(0);
         // discard any zero value node
         if (node.value() == 0) {
             return CONTINUE;
@@ -131,7 +128,7 @@ private:
 
         public:
             try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
-                next_off(offset), next_val(val), isAdd(isAdd) {}
+                isAdd(isAdd), next_off(offset),  next_val(val) {}
 
             bf_value new_value() {
                 return new_val;

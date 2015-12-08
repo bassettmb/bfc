@@ -126,7 +126,7 @@ class parser {
             token::type kind = tok.kind;
             source_loc loc = tok.loc;
 
-            switch (tok.kind) {
+            switch (kind) {
                 case token::INC:
                   {
                     astSeq.emplace_back(new ast_add(loc, 0, 1));
