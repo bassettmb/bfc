@@ -140,7 +140,7 @@ private:
     class try_combine_set_inc_visitor : public test_visitor {
 
         public:
-            try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
+            try_combine_set_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
                 isAdd(isAdd), next_off(offset),  next_val(val) {}
 
             bf_value new_value() {
