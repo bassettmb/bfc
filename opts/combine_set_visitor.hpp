@@ -4,7 +4,7 @@
 #include "ast/mod.hpp"
 #include "test_visitor.hpp"
 #include "opt_seq_base_visitor.hpp"
-#include "types.h"
+#include "rts/types.h"
 
 namespace bfc {
 namespace ast {
@@ -26,7 +26,7 @@ public:
         // copy the node
         return opt_seq_base_visitor::handle_set(node);
     }
-    
+
     status visit(const set &node) {
         // Only attempt to combine if there is a previous node
         if (!opt_seq.empty()) {
@@ -40,7 +40,7 @@ public:
         // copy the node
         return opt_seq_base_visitor::handle_set(node);
     }
-    
+
     status visit(add &node) {
         // discard any zero value node
         if (node.value() == 0) {
@@ -116,27 +116,27 @@ public:
         // else make node copy
         return opt_seq_base_visitor::handle_sub(node);
     }
-    
+
 private:
 
     class test_combine_set_visitor : public test_visitor {
-        
+
         public:
-            
+
             status visit(set &node) { return CONTINUE; }
-            
+
             status visit(const set &node) { return CONTINUE; }
-                
+
             status visit(add &node) { return CONTINUE; }
-            
+
             status visit(const add &node) { return CONTINUE; }
-            
+
             status visit(sub &node) { return CONTINUE; }
-            
+
             status visit(const sub &node) { return CONTINUE; }
-            
+
     };
-    
+
     class try_combine_set_inc_visitor : public test_visitor {
 
         public:
