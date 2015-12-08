@@ -1,4 +1,4 @@
-#include "bfc/rts.h"
+#include "rts.h"
 #include <stdlib.h>
 
 extern void bfc_main(void);
