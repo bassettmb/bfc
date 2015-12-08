@@ -94,52 +94,52 @@ public:
 protected:
 
     status handle_set(set &node) {
-        opt_seq.emplace_back(new set(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new set(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_set(const set &node) {
-        opt_seq.emplace_back(new set(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new set(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_add(add &node) {
-        opt_seq.emplace_back(new add(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new add(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_add(const add &node) {
-        opt_seq.emplace_back(new add(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new add(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_sub(sub &node) {
-        opt_seq.emplace_back(new sub(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new sub(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_sub(const sub &node) {
-        opt_seq.emplace_back(new sub(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new sub(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_mul(mul &node) {
-        opt_seq.emplace_back(new mul(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new mul(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_mul(const mul &node) {
-        opt_seq.emplace_back(new mul(node.loc(), node.offset(), node.value());
+        opt_seq.emplace_back(new mul(node.loc(), node.offset(), node.value()));
         return CONTINUE;
     }
     
     status handle_mov(mov &node) {
-        opt_seq.emplace_back(new mov(node.loc(), node.offset());
+        opt_seq.emplace_back(new mov(node.loc(), node.offset()));
         return CONTINUE;
     }
     
     status handle_mov(const mov &node) {
-        opt_seq.emplace_back(new mov(node.loc(), node.offset());
+        opt_seq.emplace_back(new mov(node.loc(), node.offset()));
         return CONTINUE;
     }
     
@@ -153,7 +153,7 @@ protected:
         // swap back the old optimized sequence
         opt_seq.swap(temp_seq);
         // create a new node and add to the sequence
-        opt_seq.emplace_back(new loop(node.loc(), temp_seq);
+        opt_seq.emplace_back(new loop(node.loc(), temp_seq));
         return CONTINUE;
     }
     
@@ -167,27 +167,27 @@ protected:
         // swap back the old optimized sequence
         opt_seq.swap(temp_seq);
         // create a new node and add to the sequence
-        opt_seq.emplace_back(new loop(node.loc(), temp_seq);
+        opt_seq.emplace_back(new loop(node.loc(), temp_seq));
         return CONTINUE;
     }
     
     status handle_read(read &node) {
-        opt_seq.emplace_back(new read(node.loc(), node.offset());
+        opt_seq.emplace_back(new read(node.loc(), node.offset()));
         return CONTINUE;
     }
     
     status handle_read(const read &node) {
-        opt_seq.emplace_back(new read(node.loc(), node.offset());
+        opt_seq.emplace_back(new read(node.loc(), node.offset()));
         return CONTINUE;
     }
     
     status handle_write(write &node) {
-        opt_seq.emplace_back(new write(node.loc(), node.offset());
+        opt_seq.emplace_back(new write(node.loc(), node.offset()));
         return CONTINUE;
     }
     
     status handle_write(const write &node) {
-        opt_seq.emplace_back(new write(node.loc(), node.offset());
+        opt_seq.emplace_back(new write(node.loc(), node.offset()));
         return CONTINUE;
     }
     

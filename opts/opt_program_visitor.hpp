@@ -62,7 +62,7 @@ public:
     }
     
     status visit(const set &node) {
-        throw create_type_err("SET);
+        throw create_type_err("SET");
     }
     
     status visit(add &node) {
