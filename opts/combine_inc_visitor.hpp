@@ -4,7 +4,7 @@
 #include "ast/mod.hpp"
 #include "test_visitor.hpp"
 #include "opt_seq_base_visitor.hpp"
-#include "types.h"
+#include "rts/types.h"
 
 namespace bfc { namespace ast {
 
