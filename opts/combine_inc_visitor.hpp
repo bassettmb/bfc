@@ -20,10 +20,9 @@ public:
         }
         // Only attempt to combine if there is a previous node
         if (!opt_seq.empty()) {
-            node prev_node = opt_seq.back();
             // try to combine with the previous node if possible
             try_combine_inc_visitor v(node.offset(), node.value(), true);
-            if (prev_node.accept(v) == CONTINUE) {
+            if (opt_seq.back().accept(v) == CONTINUE) {
                 // discard the combined node if it is 0
                 if (v.new_value() == 0) {
                     opt_seq.pop_back();
@@ -42,10 +41,9 @@ public:
         }
         // Only attempt to combine if there is a previous node
         if (!opt_seq.empty()) {
-            node prev_node = opt_seq.back();
             // try to combine with the previous node if possible
             try_combine_inc_visitor v(node.offset(), node.value(), true);
-            if (prev_node.accept(v) == CONTINUE) {
+            if (opt_seq.back().accept(v) == CONTINUE) {
                 // discard the combined node if it is 0
                 if (v.new_value() == 0) {
                     opt_seq.pop_back();
@@ -64,10 +62,9 @@ public:
         }
         // Only attempt to combine if there is a previous node
         if (!opt_seq.empty()) {
-            node prev_node = opt_seq.back();
             // try to combine with the previous node if possible
             try_combine_inc_visitor v(node.offset(), node.value(), false);
-            if (prev_node.accept(v) == CONTINUE) {
+            if (opt_seq.back().accept(v) == CONTINUE) {
                 // discard the combined node if it is 0
                 if (v.new_value() == 0) {
                     opt_seq.pop_back();
@@ -86,10 +83,9 @@ public:
         }
         // Only attempt to combine if there is a previous node
         if (!opt_seq.empty()) {
-            node prev_node = opt_seq.back();
             // try to combine with the previous node if possible
             try_combine_inc_visitor v(node.offset(), node.value(), false);
-            if (prev_node.accept(v) == CONTINUE) {
+            if (opt_seq.back().accept(v) == CONTINUE) {
                 // discard the combined node if it is 0
                 if (v.new_value() == 0) {
                     opt_seq.pop_back();
@@ -117,7 +113,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                new_val = node.value()
+                new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
@@ -126,7 +122,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                new_val = node.value()
+                new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
@@ -135,7 +131,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                new_val = node.value()
+                new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
@@ -144,7 +140,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                new_val = node.value()
+                new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
             }
@@ -153,7 +149,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                new_val = node.value()
+                new_val = node.value();
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
             }
@@ -162,7 +158,7 @@ private:
                 if (node.offset() != next_off) {
                     return BREAK;
                 }
-                new_val = node.value()
+                new_val = node.value();
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
             }
