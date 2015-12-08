@@ -39,12 +39,12 @@ c_pprint::config::config(void) :
   },
   label_prefix{"bfc_l"},
   hp_iden{"bfc_hp"},
+  mov_iden{"bfc_mov"},
   getc_iden{"bfc_getc"},
   putc_iden{"bfc_putc"},
   add_iden{"bfc_add"},
   sub_iden{"bfc_sub"},
-  mul_iden{"bfc_mul"},
-  mov_iden{"bfc_mov"}
+  mul_iden{"bfc_mul"}
   /*set_iden{"bfc_set"}*/
 {}
 

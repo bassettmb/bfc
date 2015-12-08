@@ -2,6 +2,7 @@
 #define BFC_PARSER_HPP
 
 #include <stdexcept>
+#include <sstream>
 #include "lexer.hpp"
 #include "result.hpp"
 #include "ast/ast.hpp"
@@ -15,7 +16,7 @@ class parser {
 
         using Lexer = lexer<Source, Traits>;
 
-        parser(Lexer lexer) : lexer(std::move(lexer)) {}
+        parser(Lexer lexer) : lex(std::move(lexer)) {}
 
         ast_node parse() {
             /* create result to hold lexer result */
@@ -24,7 +25,7 @@ class parser {
             token tok{};
 
             for(;;) {
-                res = lexer.next(tok);
+                res = lex.next(tok);
                 switch (res) {
                     case result_type::OK:
                         updateAst(tok);
@@ -44,7 +45,7 @@ class parser {
 
     private:
 
-        Lexer lexer;
+        Lexer lex;
 
         /* vector of instructions to return */
         ast_seq astSeq;
@@ -58,7 +59,7 @@ class parser {
             ast_seq loopAst{};
 
             for(;;) {
-                res = lexer.next(tok);
+                res = lex.next(tok);
                 token::type kind = tok.kind;
                 source_loc loc = tok.loc;
                 switch (res) {
@@ -112,9 +113,12 @@ class parser {
                     case result_type::DONE:
                     case result_type::FAIL:
                     default:
-                        // Throw Exception (ends without closing loop)
-                        throw std::runtime_error("Error: unmatched \'[\' at line " + loopPos.begin().row + " column " + loopPos.begin().col);
+                      {
+                        std::stringstream msg;
+                        msg << loopPos << ": unmatched \'[\'";
+                        throw std::runtime_error(msg.str());
                         break;
+                      }
                 }
             }
         }
@@ -151,9 +155,12 @@ class parser {
                     break;
                   }
                 case token::LOOP_END:
-                    // Throw Exception (No open loop to close)
-                    throw std::runtime_error("Error: unmatched \']\' at line " + loc.begin().row + " column " + loc.begin().col);
-                  break;
+                  {
+                    std::stringstream msg;
+                    msg << loc << ": unmatched \'[\'";
+                    throw std::runtime_error(msg.str());
+                    break;
+                  }
                 case token::PUT_CHAR:
                   {
                     astSeq.emplace_back(new ast_write(loc, 0));

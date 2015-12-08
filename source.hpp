@@ -142,7 +142,7 @@ private:
   disable_exns(void) noexcept
   {
     if (source)
-      source->exceptions(0);
+      source->exceptions(std::ios::goodbit);
   }
 
   std::unique_ptr<source_type> source;
