@@ -5,7 +5,7 @@ project(bfc)
 option(NO_VERIFY_COMPILER "assume that compiler configuration is correct" OFF)
 
 set(bfc_VERSION_MAJOR 0)
-set(bfc_VERSION_MINOR 2)
+set(bfc_VERSION_MINOR 3)
 set(bfc_VERSION_PATCH 0)
 
 if(NOT(NO_VERIFY_COMPILER))
