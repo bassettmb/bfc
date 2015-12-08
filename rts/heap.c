@@ -83,7 +83,7 @@ bfc_heap_ensure_left(size_t count)
 
   size_t size = bfc_hp_lim - bfc_hp_base;
   size_t grow = bfc_heap_recommend(bfc_lgrow, count - avail, SIZE_MAX - size);
-  BFC_ASSERT(SIZE_MAX - size < grow);
+  BFC_ASSERT(SIZE_MAX - size >= grow);
   size_t newsize = size + grow;
 
   bf_value *newheap = bfc_realloc(bfc_hp_base, newsize);
@@ -113,7 +113,7 @@ bfc_heap_ensure_right(size_t count)
 
   size_t size = bfc_hp_lim - bfc_hp_base;
   size_t grow = bfc_heap_recommend(bfc_rgrow, count - avail, SIZE_MAX - size);
-  BFC_ASSERT(SIZE_MAX - size < grow);
+  BFC_ASSERT(SIZE_MAX - size >= grow);
   size_t newsize = size + grow;
 
   bf_value *newheap = bfc_realloc(bfc_hp_base, newsize);
@@ -148,8 +148,15 @@ bfc_heap_deinit(void)
 void
 bfc_check_access(ptrdiff_t offset)
 {
-  if (offset < 0)
-    bfc_heap_ensure_left((size_t)offset);
-  else
+  if (offset < 0) {
+    /* Special case for 2's complement.
+     * Realistically this shouldn't happen, but eh..
+     */
+    if (offset == PTRDIFF_MIN)
+      bfc_heap_ensure_left((size_t)(-(offset + 1)) + 1);
+    else
+      bfc_heap_ensure_left((size_t)(-offset));
+  } else {
     bfc_heap_ensure_right((size_t)offset);
+  }
 }
