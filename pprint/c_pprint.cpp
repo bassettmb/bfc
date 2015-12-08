@@ -87,12 +87,6 @@ public:
     return ast::visitor::CONTINUE;
   }
 
-  ast::visitor::status visit(const ast::set &node) override
-  {
-    pp_set(node.offset(), node.value());
-    return ast::visitor::CONTINUE;
-  }
-
   ast::visitor::status visit(const ast::mov &node) override
   {
     pp_mov(node.offset());
@@ -260,12 +254,6 @@ private:
   {
     pp_indent();
     pp_fn(opts.mov_iden.data(), offset);
-  }
-
-  void pp_set(ptrdiff_t offset, int value)
-  {
-    pp_indent();
-    pp_fn(opts.set_iden.data(), offset, value);
   }
 
   label_id next_label_id;
