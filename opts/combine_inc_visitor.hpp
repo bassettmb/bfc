@@ -145,7 +145,7 @@ private:
                 }
                 new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
-                type = ADD;
+                this_type = ADD;
                 return CONTINUE;
             }
 
@@ -155,7 +155,7 @@ private:
                 }
                 new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
-                type = ADD;
+                this_type = ADD;
                 return CONTINUE;
             }
 
@@ -165,7 +165,7 @@ private:
                 }
                 new_val = node.value();
                 isAdd ? new_val -= next_val : new_val += next_val;
-                type = SUB;
+                this_type = SUB;
                 return CONTINUE;
             }
 
@@ -175,7 +175,7 @@ private:
                 }
                 new_val = node.value();
                 isAdd ? new_val -= next_val : new_val += next_val;
-                type = SUB;
+                this_type = SUB;
                 return CONTINUE;
             }
 
