@@ -64,6 +64,30 @@ seq::pop_back(void) noexcept
   elems.pop_back();
 }
 
+node&
+seq::front(void) noexcept
+{
+    return elems.front();
+}
+
+const node&
+seq::front(void) const noexcept
+{
+    return elems.front();
+}
+
+node&
+seq::back(void) noexcept
+{
+    return elems.back();
+}
+
+const node&
+seq::back(void) const noexcept
+{
+    return elems.back();
+}
+
 seq::size_type
 seq::size(void) const noexcept
 {
