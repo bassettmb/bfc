@@ -26,8 +26,8 @@ c_pprint::config::config(void) :
   putc_iden{"bfc_putc"},
   add_iden{"bfc_add"},
   sub_iden{"bfc_sub"},
-  mul_iden{"bfc_mul"},
-  set_iden{"bfc_set"}
+  mul_iden{"bfc_mul"}
+  /*set_iden{"bfc_set"}*/
 {}
 
 namespace {
