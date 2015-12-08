@@ -6,8 +6,8 @@
 # Example:
    add_executable(run_lexer lexer_test.cpp)
    add_executable(run_parser parser_test.cpp)
-   target_link_libraries(run_lexer gtest gtest_main)
-   target_link_libraries(run_parser gtest gtest_main)
+   target_link_libraries(run_lexer gtest gtest_main ast)
+   target_link_libraries(run_parser gtest gtest_main ast)
    add_test(run_lexer run_lexer)
    add_test(run_parser run_parser)
    add_dependencies(check run_lexer run_parser)
