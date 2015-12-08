@@ -32,9 +32,9 @@ public:
                 // discard the combined node if it is 0
                 if (v.new_value() != 0) {
                     if (v.type() == ADD) {
-                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value());
+                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value());                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
                     }
                 }
                 return CONTINUE;
@@ -58,9 +58,9 @@ public:
                 // discard the combined node if it is 0
                 if (v.new_value() != 0) {
                     if (v.type() == ADD) {
-                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value());
+                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value());                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
                     }
                 }
                 return CONTINUE;
@@ -84,9 +84,9 @@ public:
                 // discard the combined node if it is 0
                 if (v.new_value() != 0) {
                     if (v.type() == ADD) {
-                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value());
+                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value());                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
                     }
                     return CONTINUE;
                 }
@@ -110,9 +110,9 @@ public:
                 // discard the combined node if it is 0
                 if (v.new_value() != 0) {
                     if (v.type() == ADD) {
-                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value());
+                        opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value());                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
                     }
                     return CONTINUE;
                 }
