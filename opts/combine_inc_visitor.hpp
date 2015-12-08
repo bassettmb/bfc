@@ -1,6 +1,7 @@
 #ifndef BFC_COMBINE_INC_VISITOR_HPP
 #define BFC_COMBINE_INC_VISITOR_HPP
 
+#include "assert.h"
 #include "ast/mod.hpp"
 #include "ast/base.hpp"
 #include "test_visitor.hpp"
@@ -19,6 +20,7 @@ public:
     };
 
     status visit(add &node) {
+      assert(0);
         // discard any zero value node
         if (node.value() == 0) {
             return CONTINUE;
