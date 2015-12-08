@@ -38,7 +38,7 @@ public:
         // else make node copy
         return opt_seq_base_visitor::handle_add(node);
     }
-    
+
     status visit(const add &node) {
         // discard any zero value node
         if (node.value() == 0) {
@@ -64,7 +64,7 @@ public:
         // else make node copy
         return opt_seq_base_visitor::handle_add(node);
     }
-    
+
     status visit(sub &node) {
         // discard any zero value node
         if (node.value() == 0) {
@@ -90,7 +90,7 @@ public:
         // else make node copy
         return opt_seq_base_visitor::handle_sub(node);
     }
-    
+
     status visit(const sub &node) {
         // discard any zero value node
         if (node.value() == 0) {
@@ -117,7 +117,7 @@ public:
         // else make node copy
         return opt_seq_base_visitor::handle_sub(node);
     }
-    
+
 private:
 
     class try_combine_inc_visitor : public test_visitor {
@@ -130,7 +130,7 @@ private:
         public:
             try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
                 next_off(offset), next_val(val), isAdd(isAdd) {}
-                
+
             bf_value new_value() {
                 return new_val;
             }
@@ -138,7 +138,7 @@ private:
             node_type type() {
                 return type;
             }
-                
+
             status visit(add &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
@@ -148,7 +148,7 @@ private:
                 type = ADD;
                 return CONTINUE;
             }
-            
+
             status visit(const add &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
@@ -158,7 +158,7 @@ private:
                 type = ADD;
                 return CONTINUE;
             }
-            
+
             status visit(sub &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
@@ -168,7 +168,7 @@ private:
                 type = SUB;
                 return CONTINUE;
             }
-            
+
             status visit(const sub &node) {
                 if (node.offset() != next_off) {
                     return BREAK;
@@ -178,7 +178,7 @@ private:
                 type = SUB;
                 return CONTINUE;
             }
-            
+
         private:
             bool isAdd;
             ptrdiff_t next_off;
