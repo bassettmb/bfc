@@ -1,6 +1,9 @@
 #ifndef BFC_TEST_VISITOR_HPP
 #define BFC_TEST_VISITOR_HPP
 
+#include "ast/visitor.hpp"
+#include "ast/mod.hpp"
+
 namespace bfc {
 namespace ast {
 
