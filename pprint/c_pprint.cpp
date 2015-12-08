@@ -178,7 +178,7 @@ private:
     pp_indent(2);
     pp_jump(id);
   }
-  
+
   void pp_fn(const char *fn)
   {
     pp_indent();
@@ -189,7 +189,7 @@ private:
   void pp_fn(const char *fn, Arg &&arg)
   {
     pp_indent();
-    sink << fn << '(' << arg << ");" << std::endl; 
+    sink << fn << '(' << arg << ");" << std::endl;
   }
 
   template <class Arg, class ...Args>
@@ -243,6 +243,7 @@ private:
     pp_indent();
     pp_fn(opts.mul_iden.data(), offset, value);
   }
+
 
   void pp_getc(ptrdiff_t offset)
   {

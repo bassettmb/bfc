@@ -2,10 +2,12 @@
 #include <cstring>
 #include <cstdlib>
 #include <fstream>
+#include <stdexcept>
 #include "source.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "pprint/c_pprint.hpp"
+#include "optimizer.hpp"
 
 static const char PROGNAME[] = "bfc";
 static const char FILETYPE[] = "bf";
@@ -44,10 +46,19 @@ handle_filepath(const char *filepath)
 
   parser<stream_source> parser{
     lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
-  ast_node ast = parser.parse();
-  pprint::c_pprint printer{};
-  std::ofstream output{std::string{filepath} + ".c"};
-  printer.emit(output, ast);
+  optimizer optimizer{};
+  try
+  {
+    ast_node astNode = optimizer.optimize(parser.parse());
+    pprint::c_pprint printer{};
+    std::ofstream output{std::string{filepath} + ".c"};
+    printer.emit(output, astNode);
+  }
+  catch (std::runtime_error& e)
+  {
+    printf("%s", e.what());
+    return -2;
+  }
 
 
   return 0;

@@ -1,6 +1,8 @@
 #ifndef BFC_PARSER_HPP
 #define BFC_PARSER_HPP
 
+#include <stdexcept>
+#include <sstream>
 #include "lexer.hpp"
 #include "result.hpp"
 #include "ast.hpp"
@@ -14,16 +16,16 @@ class parser {
 
         using Lexer = lexer<Source, Traits>;
 
-        parser(Lexer lexer) : lexer(std::move(lexer)) {}
+        parser(Lexer lexer) : lex(std::move(lexer)) {}
 
         ast_node parse() {
             /* create result to hold lexer result */
-            result_type res = result_type::OK;
+            result_type res;
             /* create token to pass into lexer */
             token tok{};
 
             for(;;) {
-                res = lexer.next(tok);
+                res = lex.next(tok);
                 switch (res) {
                     case result_type::OK:
                         updateAst(tok);
@@ -35,14 +37,14 @@ class parser {
                         }
                     case result_type::FAIL:
                     default:
+                        throw std::runtime_error("Error: Exception occured when reading input file");
                         break;
-                }
-            }
+                } }
         }
 
     private:
 
-        Lexer lexer;
+        Lexer lex;
 
         /* vector of instructions to return */
         ast_seq astSeq;
@@ -56,7 +58,7 @@ class parser {
             ast_seq loopAst{};
 
             for(;;) {
-                res = lexer.next(tok);
+                res = lex.next(tok);
                 token::type kind = tok.kind;
                 source_loc loc = tok.loc;
                 switch (res) {
@@ -64,26 +66,22 @@ class parser {
                         switch (kind) {
                             case token::INC:
                               {
-                                ast_node add(new ast_add(loc, 0, 1));
-                                loopAst.push_back(add);
+                                loopAst.emplace_back(new ast_add(loc, 0, 1));
                                 break;
                               }
                             case token::DEC:
                               {
-                                ast_node sub(new ast_sub(loc, 0, 1));
-                                loopAst.push_back(sub);
+                                loopAst.emplace_back(new ast_sub(loc, 0, 1));
                                 break;
                               }
                             case token::MOVE_R:
                               {
-                                ast_node move_r(new ast_mov(loc, 1));
-                                loopAst.push_back(move_r);
+                                loopAst.emplace_back(new ast_mov(loc, 1));
                                 break;
                               }
                             case token::MOVE_L:
                               {
-                                ast_node move_l(new ast_mov(loc, -1));
-                                loopAst.push_back(move_l);
+                                loopAst.emplace_back(new ast_mov(loc, -1));
                                 break;
                               }
                             case token::LOOP_BEGIN:
@@ -99,14 +97,12 @@ class parser {
                               }
                             case token::PUT_CHAR:
                               {
-                                ast_node write(new ast_write(loc, 0));
-                                loopAst.push_back(write);
+                                loopAst.emplace_back(new ast_write(loc, 0));
                                 break;
                               }
                             case token::GET_CHAR:
                               {
-                                ast_node read(new ast_read(loc, 0));
-                                loopAst.push_back(read);
+                                loopAst.emplace_back(new ast_read(loc, 0));
                                 break;
                               }
                             default:
@@ -116,8 +112,12 @@ class parser {
                     case result_type::DONE:
                     case result_type::FAIL:
                     default:
+                      {
+                        std::stringstream msg;
+                        msg << loopPos << ": unmatched \'[\'";
+                        throw std::runtime_error(msg.str());
                         break;
-                        // Throw Exception (ends without closing loop)
+                      }
                 }
             }
         }
@@ -129,26 +129,22 @@ class parser {
             switch (kind) {
                 case token::INC:
                   {
-                    ast_node add(new ast_add(loc, 0, 1));
-                    astSeq.push_back(add);
+                    astSeq.emplace_back(new ast_add(loc, 0, 1));
                     break;
                   }
                 case token::DEC:
                   {
-                    ast_node sub(new ast_sub(loc, 0, 1));
-                    astSeq.push_back(sub);
+                    astSeq.emplace_back(new ast_sub(loc, 0, 1));
                     break;
                   }
                 case token::MOVE_R:
                   {
-                    ast_node move_r(new ast_mov(loc, 1));
-                    astSeq.push_back(move_r);
+                    astSeq.emplace_back(new ast_mov(loc, 1));
                     break;
                   }
                 case token::MOVE_L:
                   {
-                    ast_node move_l(new ast_mov(loc, -1));
-                    astSeq.push_back(move_l);
+                    astSeq.emplace_back(new ast_mov(loc, -1));
                     break;
                   }
                 case token::LOOP_BEGIN:
@@ -158,18 +154,20 @@ class parser {
                     break;
                   }
                 case token::LOOP_END:
-                    // Throw Exception (No open loop to close)
-                  break;
+                  {
+                    std::stringstream msg;
+                    msg << loc << ": unmatched \'[\'";
+                    throw std::runtime_error(msg.str());
+                    break;
+                  }
                 case token::PUT_CHAR:
                   {
-                    ast_node write(new ast_write(loc, 0));
-                    astSeq.push_back(write);
+                    astSeq.emplace_back(new ast_write(loc, 0));
                     break;
                   }
                 case token::GET_CHAR:
                   {
-                    ast_node read(new ast_read(loc, 0));
-                    astSeq.push_back(read);
+                    astSeq.emplace_back(new ast_read(loc, 0));
                     break;
                   }
                 default:
