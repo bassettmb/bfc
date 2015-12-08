@@ -13,19 +13,19 @@ class optimizer {
     
         optimizer(bool clean, bool quick) : clean(clean), quick(quick)  {}
         
-        ast_node optimize(const ast_node &program) {
-            return program;
-            /*
+        ast_node optimize(const ast_node &program) {            
             // create list of optimizers
             std::vector<opt_seq_base_visitor> opts;
             combine_inc_visitor inc;
-            opts.push_back(inc);
+       //     opts.push_back(inc);
             
+            /*
             if (clean) {
                 // add additional optimizers
                 dead_loops_visitor deadloop;
                 opts.push_back(deadloop);
             }
+            */
             
             opt_program_visitor opt_prog(std::move(opts));
             // run optimizations
@@ -43,7 +43,6 @@ class optimizer {
             }
             
             return opt_prog.result();
-            */
         }    
 
     private:
