@@ -1,18 +1,42 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.12)
 
 project(bfc)
+
+option(NO_VERIFY_COMPILER "assume that compiler configuration is correct" OFF)
 
 set(bfc_VERSION_MAJOR 0)
 set(bfc_VERSION_MINOR 2)
 set(bfc_VERSION_PATCH 0)
 
-option(TEST "Build all tests." OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra -Wno-unused-parameter -Wno-unused-function")
+if(NOT(NO_VERIFY_COMPILER))
+  if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    if(NOT("${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS 3.5))
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra \
+                           -Wno-unused-parameter -Wno-unused-function")
+    else()
+      message(FATAL_ERROR "c++14 compiler support required")
+    endif()
+  elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+    if(NOT("${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS 5.0))
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra \
+                           -Wno-unused-parameter -Wno-unused-function")
+    else()
+      message(FATAL_ERROR "c++14 compiler support required")
+    endif()
+  elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+    if("${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS 19)
+      message(FATAL_ERROR "c++14 compiler support required")
+    endif()
+  else()
+    message(FATAL_ERROR "c++14 compiler support required")
+  endif()
+endif()
 
 include_directories(${bfc_SOURCE_DIR})
 
 add_subdirectory(ast)
 add_subdirectory(pprint)
+add_subdirectory(rts)
 
 add_executable(bfc main.cpp)
 target_link_libraries(bfc ast pprint)
