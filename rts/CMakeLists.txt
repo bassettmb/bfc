@@ -41,9 +41,12 @@ set_target_properties(bfcrts
                       COMPILE_DEFINITIONS "${rts_defines}")
 
 target_include_directories(bfcrts PUBLIC "${CMAKE_SOURCE_DIR}")
+install(TARGETS bfcrts DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+install(FILES bfc_rts.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include")
 
 add_library(bfcentry start.c)
 set_target_properties(bfcentry
                       PROPERTIES
                       COMPILE_FLAGS "${rts_entry_flags}")
 target_include_directories(bfcentry PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+install(TARGETS bfcentry DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
