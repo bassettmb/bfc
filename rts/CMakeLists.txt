@@ -32,13 +32,18 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
   set(rts_defines "${rts_defines} BFC_RTS_WIN=1")
 endif()
 
-# TODO: change libraries to shared libraries?
+# XXX: change static libraries to shared libraries?
 
 add_library(bfcrts alloc.c assert.c exit.c heap.c init.c io.c)
-set_target_properties(bfcrts PROPERTIES COMPILE_DEFINITIONS "${rts_defines}")
-set_target_properties(bfcrts PROPERTIES COMPILE_FLAGS "${rts_flags}")
+set_target_properties(bfcrts
+                      PROPERTIES
+                      COMPILE_FLAGS "${rts_flags}"
+                      COMPILE_DEFINITIONS "${rts_defines}")
+
 target_include_directories(bfcrts PUBLIC "${CMAKE_SOURCE_DIR}")
 
 add_library(bfcentry start.c)
-set_target_properties(bfcentry PROPERTIES COMPILE_FLAGS "${rts_entry_flags}")
+set_target_properties(bfcentry
+                      PROPERTIES
+                      COMPILE_FLAGS "${rts_entry_flags}")
 target_include_directories(bfcentry PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
