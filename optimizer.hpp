@@ -28,7 +28,7 @@ class optimizer {
             }
             */
 
-            opt_program_visitor opt_prog(opts);
+            opt_program_visitor opt_prog(std::move(opts));
             // run optimizations
             program.accept(opt_prog);
 

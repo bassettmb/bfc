@@ -1,7 +1,6 @@
 #ifndef BFC_OPT_PROGRAM_VISITOR_HPP
 #define BFC_OPT_PROGRAM_VISITOR_HPP
 
-#include <assert.h>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -11,8 +10,6 @@
 #include "ast/seq.hpp"
 #include "ast/base.hpp"
 #include "ast/mod.hpp"
-
-#include <iostream>
 
 namespace bfc {
 namespace ast {
@@ -26,7 +23,6 @@ class opt_program_visitor : public visitor {
 public:
 
     opt_program_visitor(vector vec) : opts(std::move(vec)), opt_program(nullptr) {
-        std::cout << opts.size() << std::endl;
         if (opts.empty()) {
             // add a single copying visitor
             std::unique_ptr<opt_seq_base_visitor> cpy = std::make_unique<opt_seq_base_visitor>();
@@ -42,24 +38,26 @@ public:
         node.seq::accept(*opts[0]);
         seq result =  opts[0]->result();
         if(opts.size() > 1) {
-            for (int i = 1; i < opts.size(); ++i) {
+            for (size_t i = 1; i < opts.size(); ++i) {
                 result.accept(*opts[i]);
                 result = opts[i]->result();
             }
         }
         opt_program.reset(new program(node.loc(), result));
+        return CONTINUE;
     }
 
     status visit(const program &node) {
         node.seq::accept(*opts[0]);
         seq result =  opts[0]->result();
         if(opts.size() > 1) {
-            for (int i = 1; i < opts.size(); ++i) {
+            for (size_t i = 1; i < opts.size(); ++i) {
                 result.accept(*opts[i]);
                 result = opts[i]->result();
             }
         }
         opt_program.reset(new program(node.loc(), result));
+        return CONTINUE;
     }
 
     status visit(set &node) {
@@ -128,11 +126,11 @@ public:
 
 private:
 
-    // node containing optimized program
-    node opt_program;
-
     // list of optimizers to run
     vector opts;
+
+    // node containing optimized program
+    node opt_program;
 
     // function to create an error message
     error create_type_err(const string &info) {
