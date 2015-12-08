@@ -13,6 +13,11 @@ class combine_inc_visitor : public opt_seq_base_visitor {
 
 public:
 
+    enum node_type {
+        ADD = 0,
+        SUB
+    };
+
     status visit(add &node) {
         // discard any zero value node
         if (node.value() == 0) {
@@ -121,11 +126,6 @@ public:
 private:
 
     class try_combine_inc_visitor : public test_visitor {
-        
-        enum node_type {
-            ADD = 0,
-            SUB
-        };
         
         public:
             try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
