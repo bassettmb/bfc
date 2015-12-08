@@ -191,7 +191,7 @@ protected:
         return CONTINUE;
     }
     
-private:
+protected:
 
     // optimized sequence of previous nodes visited
     seq opt_seq;

@@ -42,7 +42,7 @@ public:
                 result = opts[i].result();
             }
         }
-        opt_program.reset(new program(node.loc(), result);
+        opt_program.reset(new program(node.loc(), result));
     }
     
     status visit(const program &node) {
@@ -54,7 +54,7 @@ public:
                 result = opts[i].result();
             }
         }
-        opt_program.reset(new program(node.loc(), result);
+        opt_program.reset(new program(node.loc(), result));
     }
     
     status visit(set &node) {
