@@ -33,7 +33,7 @@ public:
             }
         }
         // else optimize inner sequence
-        opt_seq_base_visitor::handle_loop(node);
+        return opt_seq_base_visitor::handle_loop(node);
     }
     
     status visit(const loop &node) {
@@ -52,7 +52,7 @@ public:
             }
         }
         // else optimize inner sequence
-        opt_seq_base_visitor::handle_loop(node);
+        return opt_seq_base_visitor::handle_loop(node);
     }
     
 private:
