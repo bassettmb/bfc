@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <memory>
 #include "ast/visitor.hpp"
 #include "opt_seq_base_visitor.hpp"
 #include "ast/seq.hpp"
@@ -18,14 +19,14 @@ class opt_program_visitor : public visitor {
 
     using error = std::runtime_error;
     using string = std::string;
-    using vector = std::vector<opt_seq_base_visitor>;
+    using vector = std::vector<std::unique_ptr<opt_seq_base_visitor>>;
 
 public:
 
     opt_program_visitor(vector vec) : opts(std::move(vec)), opt_program(nullptr) {
         if (opts.empty()) {
             // add a single copying visitor
-            opt_seq_base_visitor cpy;
+            std::unique_ptr<opt_seq_base_visitor> cpy = std::make_unique<opt_seq_base_visitor>();
             opts.push_back(cpy);
         }
     }
@@ -35,8 +36,8 @@ public:
     }
 
     status visit(program &node) {
-        node.seq::accept(opts[0]);
-        seq result =  opts[0].result();
+        node.seq::accept(*opts[0]);
+        seq result =  opts[0]->result();
         if(opts.size() > 1) {
             for (int i = 1; i < opts.size(); ++i) {
                 result.accept(opts[i]);

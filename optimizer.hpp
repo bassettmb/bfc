@@ -2,6 +2,7 @@
 #define BFC_OPTIMIZER_HPP
 
 #include <vector>
+#include <memory>
 #include "ast.hpp"
 #include "opts.hpp"
 
@@ -15,8 +16,8 @@ class optimizer {
 
         ast_node optimize(const ast_node &program) {
             // create list of optimizers
-            std::vector<opt_seq_base_visitor> opts;
-            combine_inc_visitor inc;
+            std::vector<std::unique_ptr<opt_seq_base_visitor>> opts;
+            std::unique_ptr<opt_seq_base_visitor> inc = std::make_unique<combine_inc_visitor>();
             opts.push_back(inc);
 
             /*
