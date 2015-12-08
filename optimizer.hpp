@@ -26,6 +26,9 @@ class optimizer {
             // convert clearing loops to SET(0) ops
             std::unique_ptr<opt_seq_base_visitor> clear = std::make_unique<clear_loops_visitor>();
             opts.push_back(std::move(clear));
+            // combine new set ops with each other (and with fold increments into them)
+            std::unique_ptr<opt_seq_base_visitor> set = std::make_unique<combine_set_visitor>();
+            opts.push_back(std::move(set));
 
             /*
             if (clean) {
