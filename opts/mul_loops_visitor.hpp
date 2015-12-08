@@ -8,6 +8,8 @@
 #include "rts/types.h"
 #include "source_loc.hpp"
 
+
+
 namespace bfc {
 namespace ast {
 
@@ -71,6 +73,8 @@ private:
     class test_inner_seq_visitor : public test_visitor {
 
         public:
+            test_inner_seq_visitor(void) : cur_cell(0){}
+
             ptrdiff_t net_mov() {
                 return cur_cell;
             }

@@ -73,24 +73,24 @@ TEST(OptimizerTest, CombineSetVisitor)
   auto it = ((bfc::ast_program *) node.get())->begin();
   EXPECT_NE(dynamic_cast<bfc::ast_set*>(it->get()), nullptr) << "Code should be parsed into ast_set";
   EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 2) << "ast_set(0) and 2 INCs should be parsed into ast_set(2)";
-  
-  bfc::parser<bfc::stream_source> parser{
+
+  bfc::parser<bfc::stream_source> parser2{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"++[-]"}}}};
-  bfc::optimizer optimizer{false, true};
-  bfc::ast_node node = optimizer.optimize(parser.parse());
-  EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
-  auto it = ((bfc::ast_program *) node.get())->begin();
-  EXPECT_NE(dynamic_cast<bfc::ast_set*>(it->get()), nullptr) << "Code should be parsed into ast_set";
-  EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 0) << "2 INCS and ast_set(0) should be parsed into ast_set(0)";
-  
-  bfc::parser<bfc::stream_source> parser{
+  bfc::optimizer optimizer2{false, true};
+  bfc::ast_node node2 = optimizer2.optimize(parser2.parse());
+  EXPECT_FALSE(((bfc::ast_program *) node2.get())->empty()) << "Should not produce an empty program node";
+  auto it2 = ((bfc::ast_program *) node2.get())->begin();
+  EXPECT_NE(dynamic_cast<bfc::ast_set*>(it2->get()), nullptr) << "Code should be parsed into ast_set";
+  EXPECT_EQ(((bfc::ast_set*)it2->get())->value(), (bf_value) 0) << "2 INCS and ast_set(0) should be parsed into ast_set(0)";
+
+  bfc::parser<bfc::stream_source> parser3{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"[-]++[-]"}}}};
-  bfc::optimizer optimizer{false, true};
-  bfc::ast_node node = optimizer.optimize(parser.parse());
-  EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
-  auto it = ((bfc::ast_program *) node.get())->begin();
-  EXPECT_NE(dynamic_cast<bfc::ast_set*>(it->get()), nullptr) << "Code should be parsed into ast_set";
-  EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 0) << "ast_set(0), 2 INCs, and ast_set(0) should be parsed into ast_set(2), ast_set(0), then parsed into only ast_set(0)";
+  bfc::optimizer optimizer3{false, true};
+  bfc::ast_node node3 = optimizer3.optimize(parser3.parse());
+  EXPECT_FALSE(((bfc::ast_program *) node3.get())->empty()) << "Should not produce an empty program node";
+  auto it3 = ((bfc::ast_program *) node3.get())->begin();
+  EXPECT_NE(dynamic_cast<bfc::ast_set*>(it3->get()), nullptr) << "Code should be parsed into ast_set";
+  EXPECT_EQ(((bfc::ast_set*)it3->get())->value(), (bf_value) 0) << "ast_set(0), 2 INCs, and ast_set(0) should be parsed into ast_set(2), ast_set(0), then parsed into only ast_set(0)";
 }
 
 
