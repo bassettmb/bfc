@@ -268,6 +268,12 @@ private:
     pp_fn(opts.mov_iden.data(), offset);
   }
 
+  void pp_set(ptrdiff_t offset, int value)
+  {
+    pp_indent();
+    pp_fn(opts.set_iden.data(), offset, value);
+  }
+
   label_id next_label_id;
   const c_pprint::config &opts;
   std::ostream &sink;

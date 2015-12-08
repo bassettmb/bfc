@@ -1,12 +1,31 @@
 #bfc
 
-bfc is an optimizing brainfuck compiler. We haven't worked out a target
-language or an interface quite yet, but it'll be written in C++.
+bfc is an optimizing brainfuck compiler targeting C.
+
+## Installation
+
+mkdir $BUILD\_DIR
+cd $BUILD\_DIR
+cmake -DCMAKE\_INSTALL\_PREFIX:PATH=$PREFIX ../path/to/bfc/source
+make && make install (or other platform-specific build tool)
+
+## Use
+
+bfc programs can be run as standalone programs when linked against bfcentry
+or called into manually from C. The following shows how to build a
+standalone program:
+
+bfc $SOURCE\_FILE
+cc $SOURCE\_FILE.c -lbfcrts -lbfcentry
+
+When calling into brainfuck from C, the bfc runtime must first be
+initialized via `void bfc_init(FILE *input, FILE *output)` and then the
+`void bfc_main(void)` entry point may be used to start brainfuck execution.
 
 ## Team Members
 - AJ Ballway
 - Connor McGowan
-- Michael Basset
+- Michael Bassett
 
 ## Development Guidelines
 - All code in the master branch must functional and fully tested
