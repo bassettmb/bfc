@@ -23,6 +23,9 @@ class optimizer {
             // combine move ops
             std::unique_ptr<opt_seq_base_visitor> mov = std::make_unique<combine_ptr_visitor>();
             opts.push_back(std::move(mov));
+            // convert clearing loops to SET(0) ops
+            std::unique_ptr<opt_seq_base_visitor> clear = std::make_unique<clear_loops_visitor>();
+            opts.push_back(std::move(clear));
 
             /*
             if (clean) {
