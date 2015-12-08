@@ -1,7 +1,7 @@
 #ifndef BFC_AST_TRAITS_HPP
 #define BFC_AST_TRAITS_HPP
 
-#include "types.h"
+#include "rts/types.h"
 #include "ast/base.hpp"
 #include "ast/seq.hpp"
 #include "ast/visitor.hpp"
