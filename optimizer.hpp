@@ -13,7 +13,7 @@ class optimizer {
     
         optimizer(bool clean, bool quick) : clean(clean), quick(quick)  {}
         
-        ast_node optimize(consts ast_node &program) {
+        ast_node optimize(const ast_node &program) {
             return program;
             /*
             // create list of optimizers
