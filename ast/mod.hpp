@@ -1,7 +1,7 @@
 #ifndef BFC_AST_MOD_HPP
 #define BFC_AST_MOD_HPP
 
-#include "types.h"
+#include "rts/types.h"
 
 #include "ast/base.hpp"
 #include "ast/seq.hpp"

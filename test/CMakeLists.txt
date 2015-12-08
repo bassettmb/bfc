@@ -18,3 +18,10 @@
 #   target_link_libraries(run_tests gtest gtest_main)
 #   add_test(run_tests run_tests)
 #   add_dependencies(check run_tests)
+
+macro(define_test exec_file source_file)
+  add_executable("${exec_file}" "${source_file}")
+  target_link_libraries("${exec_file}" gtest gtest_main)
+  add_test("${exec_file}" "${exec_file}")
+  add_dependencies(check "${exec_file}")
+endmacro(define_test)
