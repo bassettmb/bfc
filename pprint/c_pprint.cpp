@@ -10,7 +10,6 @@ namespace pprint {
 c_pprint::config::config(void) :
   prelude{
     "#include \"bfc_rts.h\"",
-    "#include \"bfc_rts.def\"",
     "void bfc_main(void) {"
   },
   postlude {"}"},
