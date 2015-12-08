@@ -244,11 +244,6 @@ private:
     pp_fn(opts.mul_iden.data(), offset, value);
   }
 
-  void pp_set(ptrdiff_t offset, int value)
-  {
-    pp_indent();
-    pp_fn(opts.set_iden.data(), offset, value);
-  }
 
   void pp_getc(ptrdiff_t offset)
   {
