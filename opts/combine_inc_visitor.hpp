@@ -116,6 +116,7 @@ private:
                 new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
+                return CONTINUE;
             }
             
             status visit(const set &node) {
@@ -125,6 +126,7 @@ private:
                 new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
+                return CONTINUE;
             }
                 
             status visit(add &node) {
@@ -134,6 +136,7 @@ private:
                 new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
+                return CONTINUE;
             }
             
             status visit(const add &node) {
@@ -143,6 +146,7 @@ private:
                 new_val = node.value();
                 isAdd ? new_val += next_val : new_val -= next_val;
                 node.value(new_val);
+                return CONTINUE;
             }
             
             status visit(sub &node) {
@@ -152,6 +156,7 @@ private:
                 new_val = node.value();
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
+                return CONTINUE;
             }
             
             status visit(const sub &node) {
@@ -161,6 +166,7 @@ private:
                 new_val = node.value();
                 isAdd ? new_val -= next_val : new_val += next_val;
                 node.value(new_val);
+                return CONTINUE;
             }
             
         private:
