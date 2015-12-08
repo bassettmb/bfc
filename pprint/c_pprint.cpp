@@ -26,8 +26,8 @@ c_pprint::config::config(void) :
   putc_iden{"bfc_putc"},
   add_iden{"bfc_add"},
   sub_iden{"bfc_sub"},
-  mul_iden{"bfc_mul"}
-  /*set_iden{"bfc_set"}*/
+  mul_iden{"bfc_mul"},
+  set_iden{"bfc_set"}
 {}
 
 namespace {
@@ -84,6 +84,12 @@ public:
   ast::visitor::status visit(const ast::mul &node) override
   {
     pp_mul(node.offset(), node.value());
+    return ast::visitor::CONTINUE;
+  }
+
+  ast::visitor::status visit(const ast::set &node) override
+  {
+    pp_set(node.offset(), node.value());
     return ast::visitor::CONTINUE;
   }
 
@@ -172,7 +178,7 @@ private:
     pp_indent(2);
     pp_jump(id);
   }
-  
+
   void pp_fn(const char *fn)
   {
     pp_indent();
@@ -183,7 +189,7 @@ private:
   void pp_fn(const char *fn, Arg &&arg)
   {
     pp_indent();
-    sink << fn << '(' << arg << ");" << std::endl; 
+    sink << fn << '(' << arg << ");" << std::endl;
   }
 
   template <class Arg, class ...Args>
@@ -236,6 +242,12 @@ private:
   {
     pp_indent();
     pp_fn(opts.mul_iden.data(), offset, value);
+  }
+
+  void pp_set(ptrdiff_t offset, int value)
+  {
+    pp_indent();
+    pp_fn(opts.set_iden.data(), offset, value);
   }
 
   void pp_getc(ptrdiff_t offset)

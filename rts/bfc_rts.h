@@ -19,8 +19,7 @@ void bfc_check_access(ptrdiff_t offset);
 #define bfc_add(off, val) (bfc_check_access(off), bfc_hp[(off)] += (val))
 #define bfc_sub(off, val) (bfc_check_access(off), bfc_hp[(off)] -= (val))
 #define bfc_mov(off) (bfc_check_access(off), bfc_hp += (off))
-#define bfc_mul(off, val) (bfc_check_access(off), \
-                           bfc_hp[(off)] += *bfc_hp * (val), *bfc_hp = 0)
+#define bfc_mul(off, val) (bfc_check_access(off), bfc_hp[(off)] += *bfc_hp * (val))
 #define bfc_set(off, val) (bfc_check_access(off), bfc_hp[(off)] = (val))
 
 void bfc_getc(ptrdiff_t offset);

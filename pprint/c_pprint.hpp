@@ -35,7 +35,7 @@ public:
     std::string add_iden;
     std::string sub_iden;
     std::string mul_iden;
-    /* std::string set_iden; */
+    std::string set_iden;
   };
 
   c_pprint(void);
