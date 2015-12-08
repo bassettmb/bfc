@@ -27,7 +27,7 @@ public:
         if (opts.empty()) {
             // add a single copying visitor
             std::unique_ptr<opt_seq_base_visitor> cpy = std::make_unique<opt_seq_base_visitor>();
-            opts.push_back(cpy);
+            opts.push_back(std::move(cpy));
         }
     }
 
