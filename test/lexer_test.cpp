@@ -7,7 +7,7 @@
 #include "token.hpp"
 
 
-TEST(LexerTest, EmptyFile)
+TEST(LexerTest, EmptySource)
 {
   bfc::lexer<bfc::stream_source> lexer{bfc::stream_source{new std::stringstream{""}}};
   bfc::token tok{};
