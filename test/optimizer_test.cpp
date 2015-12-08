@@ -10,7 +10,7 @@ TEST(OptimizerTest, CombineIncVisitor)
 {
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"+++"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
@@ -24,7 +24,7 @@ TEST(OptimizerTest, CombinePtrVisitor)
 {
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{">>>"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
@@ -38,7 +38,7 @@ TEST(OptimizerTest, ClearLoopsVisitor)
 {
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"[-]"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
@@ -50,7 +50,7 @@ TEST(OptimizerTest, MulLoopsVisitor)
 {
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"[->+++<]"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
@@ -67,7 +67,7 @@ TEST(OptimizerTest, CombineSetVisitor)
 {
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"[-]++"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
@@ -76,7 +76,7 @@ TEST(OptimizerTest, CombineSetVisitor)
   
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"++[-]"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
@@ -85,7 +85,7 @@ TEST(OptimizerTest, CombineSetVisitor)
   
   bfc::parser<bfc::stream_source> parser{
     bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"[-]++[-]"}}}};
-  bfc::optimizer optimizer{false, true};
+  bfc::optimizer optimizer{};
   bfc::ast_node node = optimizer.optimize(parser.parse());
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();

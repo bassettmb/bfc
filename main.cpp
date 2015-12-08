@@ -46,7 +46,7 @@ handle_filepath(const char *filepath)
 
   parser<stream_source> parser{
     lexer<stream_source>{stream_source{new std::fstream{filepath}}}};
-  optimizer optimizer{false, true};
+  optimizer optimizer{};
   try
   {
     ast_node astNode = optimizer.optimize(parser.parse());
