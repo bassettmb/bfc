@@ -12,7 +12,7 @@ c_pprint::c_pprint(void) = default;
 
 c_pprint::config::config(void) :
   prelude{
-    "#include \"bfc_rts.h\"",
+    "#include \"bfc/rts.h\"",
     "void bfc_main(void) {"
   },
   postlude {

@@ -36,6 +36,10 @@ endif()
 
 include_directories(${bfc_SOURCE_DIR})
 
+if(APPLE)
+  set(CMAKE_MACOSX_RPATH ON)
+endif()
+
 add_subdirectory(ast)
 add_subdirectory(pprint)
 add_subdirectory(rts)
