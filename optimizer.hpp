@@ -18,7 +18,7 @@ class optimizer {
             // create list of optimizers
             std::vector<std::unique_ptr<opt_seq_base_visitor>> opts;
             std::unique_ptr<opt_seq_base_visitor> inc = std::make_unique<combine_inc_visitor>();
-            opts.push_back(inc);
+            opts.push_back(std::move(inc));
 
             /*
             if (clean) {
