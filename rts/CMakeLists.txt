@@ -34,11 +34,11 @@ endif()
 
 # TODO: change libraries to shared libraries?
 
-add_library(rts alloc.c assert.c exit.c heap.c init.c io.c)
-set_target_properties(rts PROPERTIES COMPILE_DEFINITIONS "${rts_defines}")
-set_target_properties(rts PROPERTIES COMPILE_FLAGS "${rts_flags}")
-target_include_directories(rts PUBLIC "${CMAKE_SOURCE_DIR}")
+add_library(bfcrts alloc.c assert.c exit.c heap.c init.c io.c)
+set_target_properties(bfcrts PROPERTIES COMPILE_DEFINITIONS "${rts_defines}")
+set_target_properties(bfcrts PROPERTIES COMPILE_FLAGS "${rts_flags}")
+target_include_directories(bfcrts PUBLIC "${CMAKE_SOURCE_DIR}")
 
-add_library(rts_entry start.c)
-set_target_properties(rts PROPERTIES COMPILE_FLAGS "${rts_entry_flags}")
-target_include_directories(rts_entry PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+add_library(bfcentry start.c)
+set_target_properties(bfcentry PROPERTIES COMPILE_FLAGS "${rts_entry_flags}")
+target_include_directories(bfcentry PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
