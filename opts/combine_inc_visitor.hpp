@@ -3,6 +3,7 @@
 
 #include "ast/mod.hpp"
 #include "ast/base.hpp"
+#include "opts/test_visitor.hpp"
 #include "types.h"
 
 namespace bfc {
