@@ -46,6 +46,23 @@ TEST(OptimizerTest, ClearLoopsVisitor)
   EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 0) << "Clearing loop [-] should be optimized into one ast_set(0)";
 }
 
+TEST(OptimizerTest, MulLoopsVisitor)
+{
+  bfc::parser<bfc::stream_source> parser{
+    bfc::lexer<bfc::stream_source>{bfc::stream_source{new std::stringstream{"[->+++<]"}}}};
+  bfc::optimizer optimizer{false, true};
+  bfc::ast_node node = optimizer.optimize(parser.parse());
+  EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
+  auto it = ((bfc::ast_program *) node.get())->begin();
+  EXPECT_NE(dynamic_cast<bfc::ast_mul*>(it->get()), nullptr) << "Code should be parsed into ast_mul";
+  EXPECT_EQ(((bfc::ast_mul*)it->get())->value(), (bf_value) 3) << "Multiply loop [->+++<] should first be optimized into one ast_mul with val 3";
+  EXPECT_EQ(((bfc::ast_mul*)it->get())->offset(), (ptrdiff_t) 1) << "Multiply loop [->+++<] should first be optimized into one ast_mul with offset 1";
+  ++it;
+  EXPECT_NE(dynamic_cast<bfc::ast_set*>(it->get()), nullptr) << "Code should be parsed into ast_set";
+  EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 0) << "Multiply loop [->+++<] should finally be optimized into an ast_mul with val 0";
+  EXPECT_EQ(((bfc::ast_set*)it->get())->offset(), (ptrdiff_t) 0) << "Multiply loop [->+++<] should finally be optimized into an ast_mul with offset 0";
+}
+
 TEST(OptimizerTest, CombineSetVisitor)
 {
   bfc::parser<bfc::stream_source> parser{
@@ -73,7 +90,7 @@ TEST(OptimizerTest, CombineSetVisitor)
   EXPECT_FALSE(((bfc::ast_program *) node.get())->empty()) << "Should not produce an empty program node";
   auto it = ((bfc::ast_program *) node.get())->begin();
   EXPECT_NE(dynamic_cast<bfc::ast_set*>(it->get()), nullptr) << "Code should be parsed into ast_set";
-  EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 0) << "ast_set(0), 2 INCs, and ast_set(0) should be parsed into ast_set(2), ast_set(0), then parsed into ast_set(0)";
+  EXPECT_EQ(((bfc::ast_set*)it->get())->value(), (bf_value) 0) << "ast_set(0), 2 INCs, and ast_set(0) should be parsed into ast_set(2), ast_set(0), then parsed into only ast_set(0)";
 }
 
 
