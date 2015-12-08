@@ -2,6 +2,10 @@
 
 bfc is an optimizing brainfuck compiler targeting C.
 
+## Dependencies
+
+A C++14 compiler such as Clang 3.5 or GCC 5.0.
+
 ## Installation
 
 mkdir $BUILD\_DIR
