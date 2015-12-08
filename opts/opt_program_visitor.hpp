@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "ast/visitor.hpp"
-#include "opt_seq_base_visitor"
+#include "opt_seq_base_visitor.hpp"
 #include "ast/seq.hpp"
 #include "ast/base.hpp"
 #include "ast/mod.hpp"
