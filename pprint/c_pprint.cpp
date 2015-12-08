@@ -10,31 +10,13 @@ namespace pprint {
 
 c_pprint::c_pprint(void) = default;
 
-/* Halp I feel so dirty halp. */
 c_pprint::config::config(void) :
   prelude{
-    "#include <stdio.h>",
-    "static unsigned char mem[30000];",
-    "static unsigned char *bfc_hp = mem + 10000;",
-    "#define bfc_add(off, val) (bfc_hp[(off)] += (val))",
-    "#define bfc_sub(off, val) (bfc_hp[(off)] -= (val))",
-    "#define bfc_mov(off) (bfc_hp += (off))",
-    "#define bfc_mul(off, val) \
-      do { \
-        bfc_hp[(off)] += *bfc_hp * (val); \
-        *bfc_hp = 0; \
-      } while(0)",
-    "#define bfc_getc(off) \
-      do { \
-        int _bfc_ch = getchar(); \
-        if (_bfc_ch != EOF) \
-          bfc_hp[(off)] = _bfc_ch; \
-      } while (0)",
-    "#define bfc_putc(off) putchar(bfc_hp[(off)])",
-    "int main(void) {"
+    "#include \"rts.h\"",
+    "void bfc_main(void) {"
   },
   postlude {
-    "  return 0;",
+    "  (void)(0);",
     "}"
   },
   label_prefix{"bfc_l"},
