@@ -136,7 +136,7 @@ private:
             }
             
             node_type type() {
-                return type;
+                return this_type;
             }
 
             status visit(add &node) {
@@ -184,7 +184,7 @@ private:
             ptrdiff_t next_off;
             bf_value next_val;
             bf_value new_val;
-            node_type type;
+            node_type this_type;
     };
 
 };
