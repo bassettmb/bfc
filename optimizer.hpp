@@ -32,7 +32,7 @@ class optimizer {
             program.accept(opt_prog);
             
             if (!quick) {
-                if (!program.equals(opt_prog.result()) {
+                if (!program.equals(opt_prog.result())) {
                     // re-run optimizations until AST is stable
                     ast_node result;
                     do {
