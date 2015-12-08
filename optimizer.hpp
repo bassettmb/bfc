@@ -16,8 +16,8 @@ class optimizer {
         ast_node optimize(const ast_node &program) {
             // create list of optimizers
             std::vector<opt_seq_base_visitor> opts;
-            //combine_inc_visitor inc;
-       //     opts.push_back(inc);
+            combine_inc_visitor inc;
+            opts.push_back(inc);
 
             /*
             if (clean) {
