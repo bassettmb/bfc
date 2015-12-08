@@ -18,7 +18,7 @@ public:
             test_inner_sequence_visitor v;
             if (node.seq::accept(v) == CONTINUE) {
                 // replace loop, just set cell to 0
-                opt_seq.emplace_back(new set(node.loc(), 0 0));
+                opt_seq.emplace_back(new set(node.loc(), 0, 0));
                 return CONTINUE;                
             }
         }
@@ -32,7 +32,7 @@ public:
             test_inner_sequence_visitor v;
             if (node.seq::accept(v) == CONTINUE) {
                 // replace loop, just set cell to 0
-                opt_seq.emplace_back(new set(node.loc(), 0 0));
+                opt_seq.emplace_back(new set(node.loc(), 0, 0));
                 return CONTINUE;                
             }
         }
