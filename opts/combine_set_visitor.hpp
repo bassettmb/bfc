@@ -125,7 +125,7 @@ private:
             
             status visit(set &node) { return CONTINUE; }
             
-            status visit(const add &set) { return CONTINUE; }
+            status visit(const set &node) { return CONTINUE; }
                 
             status visit(add &node) { return CONTINUE; }
             
