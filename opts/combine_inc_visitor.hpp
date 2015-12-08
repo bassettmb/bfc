@@ -6,8 +6,7 @@
 #include "opt_seq_base_visitor.hpp"
 #include "types.h"
 
-namespace bfc {
-namespace ast {
+namespace bfc { namespace ast {
 
 class combine_inc_visitor : public opt_seq_base_visitor {
 
@@ -34,7 +33,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                 }
                 return CONTINUE;
@@ -60,7 +59,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                 }
                 return CONTINUE;
@@ -86,7 +85,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                     return CONTINUE;
                 }
@@ -112,7 +111,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                     return CONTINUE;
                 }
@@ -126,15 +125,15 @@ public:
 private:
 
     class try_combine_inc_visitor : public test_visitor {
-        
+
         public:
             try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
-                next_off(offset), next_val(val), isAdd(isAdd) {}
+                isAdd(isAdd), next_off(offset),  next_val(val) {}
 
             bf_value new_value() {
                 return new_val;
             }
-            
+
             node_type type() {
                 return this_type;
             }
