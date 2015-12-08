@@ -6,9 +6,9 @@
 #include "opts/opt_program_visitor.hpp"
 #include "opts/opt_seq_base_visitor.hpp"
 #include "opts/combine_inc_visitor.hpp"
+#include "opts/combine_ptr_visitor.hpp"
 /*
 #include "opts/clear_loops_visitor.hpp"
-#include "opts/combine_ptr_visitor.hpp"
 #include "opts/combine_set_visitor.hpp"
 #include "opts/dead_loops_visitor.hpp"
 #include "opts/dead_set_visitor.hpp"
