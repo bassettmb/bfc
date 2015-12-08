@@ -31,6 +31,7 @@ class optimizer {
             // run optimizations
             program.accept(opt_prog);
             
+            /*
             if (!quick) {
                 if (!program.equals(opt_prog.result())) {
                     // re-run optimizations until AST is stable
@@ -41,6 +42,7 @@ class optimizer {
                     } while (result != opt_prog.result());
                 }
             }
+            */
             
             return opt_prog.result();
         }    
