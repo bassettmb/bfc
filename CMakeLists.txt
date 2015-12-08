@@ -11,15 +11,17 @@ set(bfc_VERSION_PATCH 0)
 if(NOT(NO_VERIFY_COMPILER))
   if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
     if(NOT("${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS 3.5))
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra \
-                           -Wno-unused-parameter -Wno-unused-function")
+      set(CMAKE_CXX_FLAGS
+          "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra \
+          -Wno-unused-parameter -Wno-unused-function -Werror=return-type")
     else()
       message(FATAL_ERROR "c++14 compiler support required")
     endif()
   elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
     if(NOT("${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS 5.0))
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra \
-                           -Wno-unused-parameter -Wno-unused-function")
+      set(CMAKE_CXX_FLAGS
+          "${CMAKE_CXX_FLAGS} -std=c++14 -g -Wall -Wextra \
+          -Wno-unused-parameter -Wno-unused-function -Werror=return-type")
     else()
       message(FATAL_ERROR "c++14 compiler support required")
     endif()
