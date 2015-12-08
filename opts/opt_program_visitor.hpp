@@ -43,20 +43,20 @@ public:
         seq result =  opts[0]->result();
         if(opts.size() > 1) {
             for (int i = 1; i < opts.size(); ++i) {
-                result.accept(opts[i]);
-                result = opts[i].result();
+                result.accept(*opts[i]);
+                result = opts[i]->result();
             }
         }
         opt_program.reset(new program(node.loc(), result));
     }
 
     status visit(const program &node) {
-        node.seq::accept(opts[0]);
-        seq result =  opts[0].result();
+        node.seq::accept(*opts[0]);
+        seq result =  opts[0]->result();
         if(opts.size() > 1) {
             for (int i = 1; i < opts.size(); ++i) {
-                result.accept(opts[i]);
-                result = opts[i].result();
+                result.accept(*opts[i]);
+                result = opts[i]->result();
             }
         }
         opt_program.reset(new program(node.loc(), result));
