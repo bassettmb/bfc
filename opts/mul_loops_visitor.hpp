@@ -44,7 +44,7 @@ public:
             if (v.net_mov() == 0) {
                 map changes = v.net_changes();
                 // test if first cell is decremented once each loop
-                if (changes[0] == -1) {
+                if (changes[0] == 255) { // -1 = 255 (unsigned 8bit vals)
                     // add nodes to represent the sequence
                     addMulOps(changes, node.loc());
                     return CONTINUE;
