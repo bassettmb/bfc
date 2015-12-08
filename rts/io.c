@@ -6,24 +6,6 @@ FILE *bfc_in;
 FILE *bfc_out;
 
 void
-bfc_io_init(FILE *input, FILE *output)
-{
-  bfc_in = input ? input : stdin;
-  bfc_out = output ? output : stdout;
-}
-
-void
-bfc_io_deinit(int close_input, int close_output)
-{
-  if (close_input)
-    fclose(bfc_in);
-  bfc_in = 0;
-  if (close_output)
-    fclose(bfc_out);
-  bfc_out = 0;
-}
-
-void
 bfc_putc(ptrdiff_t offset)
 {
   bfc_check_access(offset);
@@ -45,4 +27,22 @@ bfc_getc(ptrdiff_t offset)
      * untouched, clear the error and continue.
      */
     clearerr(bfc_in);
+}
+
+void
+bfc_io_init(FILE *input, FILE *output)
+{
+  bfc_in = input ? input : stdin;
+  bfc_out = output ? output : stdout;
+}
+
+void
+bfc_io_deinit(int close_input, int close_output)
+{
+  if (close_input)
+    fclose(bfc_in);
+  bfc_in = 0;
+  if (close_output)
+    fclose(bfc_out);
+  bfc_out = 0;
 }
