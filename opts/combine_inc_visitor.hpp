@@ -1,6 +1,7 @@
 #ifndef BFC_COMBINE_INC_VISITOR_HPP
 #define BFC_COMBINE_INC_VISITOR_HPP
 
+#include "assert.h"
 #include "ast/mod.hpp"
 #include "ast/base.hpp"
 #include "test_visitor.hpp"
@@ -19,6 +20,7 @@ public:
     };
 
     status visit(add &node) {
+      assert(0);
         // discard any zero value node
         if (node.value() == 0) {
             return CONTINUE;
@@ -34,7 +36,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                 }
                 return CONTINUE;
@@ -60,7 +62,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                 }
                 return CONTINUE;
@@ -86,7 +88,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                     return CONTINUE;
                 }
@@ -112,7 +114,7 @@ public:
                     if (v.type() == ADD) {
                         opt_seq.emplace_back(new add(node.loc(), node.offset(), v.new_value()));
                     } else {
-                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));                        
+                        opt_seq.emplace_back(new sub(node.loc(), node.offset(), v.new_value()));
                     }
                     return CONTINUE;
                 }
@@ -126,7 +128,7 @@ public:
 private:
 
     class try_combine_inc_visitor : public test_visitor {
-        
+
         public:
             try_combine_inc_visitor(ptrdiff_t offset, bf_value val, bool isAdd) :
                 next_off(offset), next_val(val), isAdd(isAdd) {}
@@ -134,7 +136,7 @@ private:
             bf_value new_value() {
                 return new_val;
             }
-            
+
             node_type type() {
                 return this_type;
             }

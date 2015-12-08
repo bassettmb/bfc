@@ -11,6 +11,8 @@
 #include "ast/base.hpp"
 #include "ast/mod.hpp"
 
+#include <iostream>
+
 namespace bfc {
 namespace ast {
 
@@ -23,6 +25,7 @@ class opt_program_visitor : public visitor {
 public:
 
     opt_program_visitor(vector vec) : opts(std::move(vec)), opt_program(nullptr) {
+        std::cout << opts.size() << std::endl;
         if (opts.empty()) {
             // add a single copying visitor
             opt_seq_base_visitor cpy;
