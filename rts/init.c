@@ -1,4 +1,5 @@
 #include "heap.h"
+#include "init.h"
 #include "io.h"
 
 void
