@@ -5,7 +5,7 @@
 #include <sstream>
 #include "lexer.hpp"
 #include "result.hpp"
-#include "ast/ast.hpp"
+#include "ast.hpp"
 
 namespace bfc {
 
