@@ -21,8 +21,8 @@ using opt_program_visitor = ast::opt_program_visitor;
 using opt_seq_base_visitor = ast::opt_seq_base_visitor;
 
 using combine_inc_visitor = ast::combine_inc_visitor;
-/*
 using combine_ptr_visitor = ast::combine_ptr_visitor;
+/*
 using combine_set_visitor = ast::combine_set_visitor;
 
 using clear_loops_visitor = ast::clear_loops_visitor;
