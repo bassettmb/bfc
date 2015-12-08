@@ -20,7 +20,7 @@ or called into manually from C. The following shows how to build a
 standalone program:
 
 bfc $SOURCE\_FILE
-cc $SOURCE\_FILE.c -lbfcrts -lbfcentry
+cc $SOURCE\_FILE.c -lbfcentry -lbfcrts
 
 When calling into brainfuck from C, the bfc runtime must first be
 initialized via `void bfc_init(FILE *input, FILE *output)` and then the
