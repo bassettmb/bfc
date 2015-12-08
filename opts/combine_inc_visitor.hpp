@@ -2,8 +2,8 @@
 #define BFC_COMBINE_INC_VISITOR_HPP
 
 #include "ast/mod.hpp"
-#include "ast/base.hpp"
 #include "test_visitor.hpp"
+#include "opt_seq_base_visitor.hpp"
 #include "types.h"
 
 namespace bfc {
